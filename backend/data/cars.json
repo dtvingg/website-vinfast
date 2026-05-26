@@ -1,0 +1,152 @@
+[
+  {
+    "id": "vf3",
+    "name": "VF 3",
+    "type": "mini",
+    "priceFrom": 235000000,
+    "priceTo": 260000000,
+    "description": "VF 3 là mẫu xe điện mini đô thị đầu tiên của VinFast, thiết kế gọn nhẹ phù hợp di chuyển trong thành phố. Với kích thước nhỏ gọn, VF 3 dễ dàng luồn lách trong các con phố nhỏ và đỗ xe dễ dàng. Đây là lựa chọn hoàn hảo cho những ai cần một chiếc xe thực dụng, tiết kiệm chi phí vận hành.",
+    "specs": {
+      "engine": "Điện",
+      "power": "42 mã lực",
+      "range": "210 km",
+      "seats": 4,
+      "charging": "Sạc nhanh DC 30 phút (10-70%)",
+      "dimensions": "3,195 x 1,640 x 1,565 mm",
+      "weight": "935 kg"
+    },
+    "colors": ["Trắng Tinh Khôi", "Đen Huyền Bí", "Xanh Biển Đại Dương", "Đỏ Rực Rỡ"],
+    "thumbnail": "/storage/cars/vf3/mint01.png",
+    "images": [
+      "/storage/cars/vf3/mint01.png",
+      "/storage/cars/vf3/rose01.png",
+      "/storage/cars/vf3/yellow01.png"
+    ],
+    "featured": true
+  },
+  {
+    "id": "vf5",
+    "name": "VF 5",
+    "type": "suv",
+    "priceFrom": 235000000,
+    "priceTo": 260000000,
+    "description": "VF 3 là mẫu xe điện mini đô thị đầu tiên của VinFast, thiết kế gọn nhẹ phù hợp di chuyển trong thành phố. Với kích thước nhỏ gọn, VF 3 dễ dàng luồn lách trong các con phố nhỏ và đỗ xe dễ dàng. Đây là lựa chọn hoàn hảo cho những ai cần một chiếc xe thực dụng, tiết kiệm chi phí vận hành.",
+    "specs": {
+      "engine": "Điện",
+      "power": "42 mã lực",
+      "range": "210 km",
+      "seats": 4,
+      "charging": "Sạc nhanh DC 30 phút (10-70%)",
+      "dimensions": "3,195 x 1,640 x 1,565 mm",
+      "weight": "935 kg"
+    },
+    "colors": ["Trắng Tinh Khôi", "Đen Huyền Bí", "Xanh Biển Đại Dương", "Đỏ Rực Rỡ"],
+    "thumbnail": "/storage/cars/vf3/mint01.png",
+    "images": [
+      "/storage/cars/vf3/mint01.png",
+      "/storage/cars/vf3/rose01.png",
+      "/storage/cars/vf3/yellow01.png"
+    ],
+    "featured": true
+  },
+  {
+    "id": "vf6",
+    "name": "VF 6",
+    "type": "mini",
+    "priceFrom": 235000000,
+    "priceTo": 260000000,
+    "description": "VF 3 là mẫu xe điện mini đô thị đầu tiên của VinFast, thiết kế gọn nhẹ phù hợp di chuyển trong thành phố. Với kích thước nhỏ gọn, VF 3 dễ dàng luồn lách trong các con phố nhỏ và đỗ xe dễ dàng. Đây là lựa chọn hoàn hảo cho những ai cần một chiếc xe thực dụng, tiết kiệm chi phí vận hành.",
+    "specs": {
+      "engine": "Điện",
+      "power": "42 mã lực",
+      "range": "210 km",
+      "seats": 4,
+      "charging": "Sạc nhanh DC 30 phút (10-70%)",
+      "dimensions": "3,195 x 1,640 x 1,565 mm",
+      "weight": "935 kg"
+    },
+    "colors": ["Trắng Tinh Khôi", "Đen Huyền Bí", "Xanh Biển Đại Dương", "Đỏ Rực Rỡ"],
+    "thumbnail": "/storage/cars/vf3/mint01.png",
+    "images": [
+      "/storage/cars/vf3/mint01.png",
+      "/storage/cars/vf3/rose01.png",
+      "/storage/cars/vf3/yellow01.png"
+    ],
+    "featured": true
+  },
+  {
+    "id": "vf7",
+    "name": "VF 7",
+    "type": "mini",
+    "priceFrom": 235000000,
+    "priceTo": 260000000,
+    "description": "VF 3 là mẫu xe điện mini đô thị đầu tiên của VinFast, thiết kế gọn nhẹ phù hợp di chuyển trong thành phố. Với kích thước nhỏ gọn, VF 3 dễ dàng luồn lách trong các con phố nhỏ và đỗ xe dễ dàng. Đây là lựa chọn hoàn hảo cho những ai cần một chiếc xe thực dụng, tiết kiệm chi phí vận hành.",
+    "specs": {
+      "engine": "Điện",
+      "power": "42 mã lực",
+      "range": "210 km",
+      "seats": 4,
+      "charging": "Sạc nhanh DC 30 phút (10-70%)",
+      "dimensions": "3,195 x 1,640 x 1,565 mm",
+      "weight": "935 kg"
+    },
+    "colors": ["Trắng Tinh Khôi", "Đen Huyền Bí", "Xanh Biển Đại Dương", "Đỏ Rực Rỡ"],
+    "thumbnail": "/storage/cars/vf3/mint01.png",
+    "images": [
+      "/storage/cars/vf3/mint01.png",
+      "/storage/cars/vf3/rose01.png",
+      "/storage/cars/vf3/yellow01.png"
+    ],
+    "featured": true
+  },
+  {
+    "id": "vf8",
+    "name": "VF 8",
+    "type": "mini",
+    "priceFrom": 235000000,
+    "priceTo": 260000000,
+    "description": "VF 3 là mẫu xe điện mini đô thị đầu tiên của VinFast, thiết kế gọn nhẹ phù hợp di chuyển trong thành phố. Với kích thước nhỏ gọn, VF 3 dễ dàng luồn lách trong các con phố nhỏ và đỗ xe dễ dàng. Đây là lựa chọn hoàn hảo cho những ai cần một chiếc xe thực dụng, tiết kiệm chi phí vận hành.",
+    "specs": {
+      "engine": "Điện",
+      "power": "42 mã lực",
+      "range": "210 km",
+      "seats": 4,
+      "charging": "Sạc nhanh DC 30 phút (10-70%)",
+      "dimensions": "3,195 x 1,640 x 1,565 mm",
+      "weight": "935 kg"
+    },
+    "colors": ["Trắng Tinh Khôi", "Đen Huyền Bí", "Xanh Biển Đại Dương", "Đỏ Rực Rỡ"],
+    "thumbnail": "/storage/cars/vf3/mint01.png",
+    "images": [
+      "/storage/cars/vf3/mint01.png",
+      "/storage/cars/vf3/rose01.png",
+      "/storage/cars/vf3/yellow01.png"
+    ],
+    "featured": true
+  },
+  {
+    "id": "vf9",
+    "name": "VF 9",
+    "type": "mini",
+    "priceFrom": 235000000,
+    "priceTo": 260000000,
+    "description": "VF 3 là mẫu xe điện mini đô thị đầu tiên của VinFast, thiết kế gọn nhẹ phù hợp di chuyển trong thành phố. Với kích thước nhỏ gọn, VF 3 dễ dàng luồn lách trong các con phố nhỏ và đỗ xe dễ dàng. Đây là lựa chọn hoàn hảo cho những ai cần một chiếc xe thực dụng, tiết kiệm chi phí vận hành.",
+    "specs": {
+      "engine": "Điện",
+      "power": "42 mã lực",
+      "range": "210 km",
+      "seats": 4,
+      "charging": "Sạc nhanh DC 30 phút (10-70%)",
+      "dimensions": "3,195 x 1,640 x 1,565 mm",
+      "weight": "935 kg"
+    },
+    "colors": ["Trắng Tinh Khôi", "Đen Huyền Bí", "Xanh Biển Đại Dương", "Đỏ Rực Rỡ"],
+    "thumbnail": "/storage/cars/vf3/mint01.png",
+    "images": [
+      "/storage/cars/vf3/mint01.png",
+      "/storage/cars/vf3/rose01.png",
+      "/storage/cars/vf3/yellow01.png"
+    ],
+    "featured": true
+  }
+]

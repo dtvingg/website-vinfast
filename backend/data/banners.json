@@ -1,0 +1,26 @@
+[
+  {
+    "id": 1,
+    "title": "VinFast — Khởi Nguồn Cảm Hứng",
+    "subtitle": "Xe điện thuần Việt - Vì tương lai xanh",
+    "image": "/storage/banners/vf_8_the_he_moi_deskotp_new.jpg",
+    "link": "/cars.html",
+    "order": 1
+  },
+  {
+    "id": 2,
+    "title": "Trải Nghiệm Lái Xe Điện",
+    "subtitle": "Hiệu suất mạnh mẽ - Chi phí tiết kiệm",
+    "image": "/storage/banners/vinfast-giai-phap-di-chuyen-xanh-ben-vung-desktop.jpg",
+    "link": "/cars.html",
+    "order": 2
+  },
+  {
+    "id": 3,
+    "title": "VF 8 — Đẳng Cấp Mới",
+    "subtitle": "SUV điện cỡ C sang trọng nhất phân khúc",
+    "image": "/storage/banners/vinfast-len-doi-xe-xanh-toi-uu-chi-phi-desktop.jpg",
+    "link": "/cars.html",
+    "order": 3
+  }
+]

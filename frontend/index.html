@@ -1,0 +1,164 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>VinFast Mạnh Hiển - Xe Điện Chính Hãng</title>
+  <link rel="stylesheet" href="/css/style.css" />
+</head>
+<body>
+  <!-- HEADER -->
+  <header class="header">
+    <div class="header-inner container">
+      <a href="/" class="logo-link">
+        <div class="logo-circle">
+          <img src="/storage/logos/vector-logo-vinfast.png" alt="VinFast" />
+        </div>
+        <span class="site-name">VinFast Mạnh Hiển</span>
+      </a>
+      <nav class="header-nav">
+        <a href="/" class="nav-link active">Trang Chủ</a>
+        <a href="/cars.html" class="nav-link">Dòng Xe</a>
+        <a href="#footer" class="nav-link">Liên Hệ</a>
+      </nav>
+      <!-- <a id="header-domain" href="https://vinfastmanhhien.click" class="header-domain" target="_blank" rel="noopener">vinfastmanhhien.click</a> -->
+    </div>
+  </header>
+
+  <main>
+    <!-- BANNER CAROUSEL -->
+    <section class="banner-section">
+      <div id="banner-container" class="banner-container">
+        <div id="banner-slides" class="banner-slides">
+          <!-- Slides injected by main.js -->
+        </div>
+        <button id="banner-prev" class="banner-nav banner-prev" aria-label="Slide trước">
+          <svg width="24" height="24" viewBox="0 0 24 24" fill="none">
+            <path d="M15 18l-6-6 6-6" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/>
+          </svg>
+        </button>
+        <button id="banner-next" class="banner-nav banner-next" aria-label="Slide tiếp">
+          <svg width="24" height="24" viewBox="0 0 24 24" fill="none">
+            <path d="M9 18l6-6-6-6" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/>
+          </svg>
+        </button>
+        <div id="banner-dots" class="banner-dots"></div>
+      </div>
+    </section>
+
+    <!-- FEATURED CARS -->
+    <section class="featured-section">
+      <div class="container">
+        <div class="section-header">
+          <h2 class="section-title">Dòng Xe Nổi Bật</h2>
+          <p class="section-subtitle">Khám phá các mẫu xe điện VinFast được yêu thích nhất</p>
+        </div>
+        <div id="featured-cars" class="cars-grid">
+          <!-- Car cards injected by main.js -->
+          <div class="car-card skeleton"></div>
+          <div class="car-card skeleton"></div>
+          <div class="car-card skeleton"></div>
+        </div>
+        <div class="section-footer">
+          <a href="/cars.html" class="btn-secondary">Xem Tất Cả Dòng Xe</a>
+        </div>
+      </div>
+    </section>
+
+    <!-- WHY VINFAST -->
+    <section class="why-section">
+      <div class="container">
+        <div class="section-header">
+          <h2 class="section-title">Tại Sao Chọn VinFast?</h2>
+        </div>
+        <div class="why-grid">
+          <div class="why-card">
+            <div class="why-icon">⚡</div>
+            <h3>Công Nghệ Điện Xanh</h3>
+            <p>Xe điện thuần túy, không khí thải, thân thiện môi trường với chi phí vận hành thấp.</p>
+          </div>
+          <div class="why-card">
+            <div class="why-icon">🛡️</div>
+            <h3>Bảo Hành Toàn Diện</h3>
+            <p>Chính sách bảo hành pin lên đến 10 năm hoặc 200.000 km, không lo hao mòn.</p>
+          </div>
+          <div class="why-card">
+            <div class="why-icon">🔌</div>
+            <h3>Hạ Tầng Sạc Rộng Khắp</h3>
+            <p>Hệ thống trạm sạc VinFast phủ sóng toàn quốc, sạc nhanh tiện lợi mọi lúc.</p>
+          </div>
+          <div class="why-card">
+            <div class="why-icon">💎</div>
+            <h3>Thiết Kế Đẳng Cấp</h3>
+            <p>Ngoại thất hiện đại, nội thất sang trọng, trang bị công nghệ thông minh tiên tiến.</p>
+          </div>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <!-- FOOTER -->
+  <footer id="footer" class="footer">
+    <div class="footer-inner container">
+      <div class="footer-col footer-col-brand">
+        <div class="footer-logo">
+          <div class="logo-circle logo-circle--lg">
+            <img src="/storage/logos/vector-logo-vinfast.png" alt="VinFast" />
+          </div>
+          <span class="footer-brand-name">VinFast Mạnh Hiển</span>
+        </div>
+        <p class="footer-tagline">Đại lý xe điện VinFast chính hãng, uy tín, tận tâm phục vụ.</p>
+        <!-- <a href="https://vinfastmanhhien.click" class="footer-domain-link" target="_blank" rel="noopener">vinfastmanhhien.click</a> -->
+      </div>
+
+      <div class="footer-col footer-col-contact">
+        <h4 class="footer-col-title">Thông Tin Liên Hệ</h4>
+        <ul class="footer-contact-list">
+          <li>
+            <span class="footer-contact-icon">👤</span>
+            <span id="footer-name" class="footer-contact-text">Đang tải...</span>
+          </li>
+          <li>
+            <span class="footer-contact-icon">📞</span>
+            <a id="footer-phone" href="tel:" class="footer-contact-link">Đang tải...</a>
+          </li>
+          <li>
+            <span class="footer-contact-icon">📍</span>
+            <span id="footer-address" class="footer-contact-text">Đang tải...</span>
+          </li>
+        </ul>
+      </div>
+
+      <div class="footer-col footer-col-social">
+        <h4 class="footer-col-title">Kết Nối Với Chúng Tôi</h4>
+        <div class="footer-social-links">
+          <a id="footer-facebook" href="#" class="footer-social-link footer-social-facebook" target="_blank" rel="noopener">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor"><path d="M24 12.073c0-6.627-5.373-12-12-12s-12 5.373-12 12c0 5.99 4.388 10.954 10.125 11.854v-8.385H7.078v-3.47h3.047V9.43c0-3.007 1.792-4.669 4.533-4.669 1.312 0 2.686.235 2.686.235v2.953H15.83c-1.491 0-1.956.925-1.956 1.874v2.25h3.328l-.532 3.47h-2.796v8.385C19.612 23.027 24 18.062 24 12.073z"/></svg>
+            Facebook
+          </a>
+          <a id="footer-tiktok" href="#" class="footer-social-link footer-social-tiktok" target="_blank" rel="noopener">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor"><path d="M12.525.02c1.31-.02 2.61-.01 3.91-.02.08 1.53.63 3.09 1.75 4.17 1.12 1.11 2.7 1.62 4.24 1.79v4.03c-1.44-.05-2.89-.35-4.2-.97-.57-.26-1.1-.59-1.62-.93-.01 2.92.01 5.84-.02 8.75-.08 1.4-.54 2.79-1.35 3.94-1.31 1.92-3.58 3.17-5.91 3.21-1.43.08-2.86-.31-4.08-1.03-2.02-1.19-3.44-3.37-3.65-5.71-.02-.5-.03-1-.01-1.49.18-1.9 1.12-3.72 2.58-4.96 1.66-1.44 3.98-2.13 6.15-1.72.02 1.48-.04 2.96-.04 4.44-.99-.32-2.15-.23-3.02.37-.63.41-1.11 1.04-1.36 1.75-.21.51-.15 1.07-.14 1.61.24 1.64 1.82 3.02 3.5 2.87 1.12-.01 2.19-.66 2.77-1.61.19-.33.4-.67.41-1.06.1-1.79.06-3.57.07-5.36.01-4.03-.01-8.05.02-12.07z"/></svg>
+            TikTok
+          </a>
+          <a id="footer-zalo" href="https://zalo.me/0912475576" class="footer-social-link footer-social-zalo" target="_blank" rel="noopener">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor"><path d="M12 0C5.373 0 0 5.373 0 12s5.373 12 12 12 12-5.373 12-12S18.627 0 12 0zm5.894 16.515c-.19.33-.52.515-.882.515-.17 0-.344-.043-.5-.134l-3.09-1.784a.507.507 0 0 0-.25-.067c-.09 0-.18.023-.258.068l-1.62.936a.995.995 0 0 1-.505.137.997.997 0 0 1-.866-.5l-.5-.866a1 1 0 0 1 .366-1.366l1.62-.936a.496.496 0 0 0 .183-.683l-1.785-3.09a1 1 0 0 1 .367-1.366l.866-.5a1 1 0 0 1 1.366.367l1.785 3.09a.5.5 0 0 0 .433.25c.09 0 .18-.024.258-.068l3.09-1.784a1 1 0 0 1 1.366.366l.5.866a1 1 0 0 1-.366 1.366l-3.09 1.784a.5.5 0 0 0-.183.683l1.784 3.09a1 1 0 0 1-.09 1.127z"/></svg>
+            Zalo
+          </a>
+        </div>
+        <div class="footer-nav-links">
+          <a href="/" class="footer-nav-link">Trang Chủ</a>
+          <a href="/cars.html" class="footer-nav-link">Dòng Xe</a>
+        </div>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <div class="container">
+        <p>&copy; 2025 VinFast Mạnh Hiển. Tất cả quyền được bảo lưu.</p>
+      </div>
+    </div>
+  </footer>
+
+  <script src="/js/tracker.js?v=2"></script>
+  <script src="/js/main.js?v=2"></script>
+</body>
+</html>
