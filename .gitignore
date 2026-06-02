@@ -14,3 +14,6 @@ certbot/www/
 
 # Logs
 *.log
+
+# Large binary installers
+cloudflared.deb
