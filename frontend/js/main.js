@@ -94,16 +94,7 @@ async function loadBanners() {
     if (prevBtn) prevBtn.addEventListener('click', () => showSlide(currentSlide - 1));
     if (nextBtn) nextBtn.addEventListener('click', () => showSlide(currentSlide + 1));
 
-    let autoPlay = setInterval(() => showSlide(currentSlide + 1), 4000);
-
-    // Pause on hover, resume on leave
-    const bannerContainer = document.getElementById('banner-container');
-    if (bannerContainer) {
-      bannerContainer.addEventListener('mouseenter', () => clearInterval(autoPlay));
-      bannerContainer.addEventListener('mouseleave', () => {
-        autoPlay = setInterval(() => showSlide(currentSlide + 1), 4000);
-      });
-    }
+    setInterval(() => showSlide(currentSlide + 1), 4000);
 
     showSlide(0);
   } catch (e) {
