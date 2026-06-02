@@ -47,13 +47,18 @@ function renderSpecs(specs) {
   if (!specs) return [];
 
   const labels = {
+    dimensions: 'Kích thước tổng thể ',
+    wheelbase: 'Chiều dài cơ sở',
+    ground_clearance: 'Khoảng sáng gầm xe',
     engine: 'Động cơ',
-    power: 'Công suất',
-    range: 'Tầm hoạt động',
+    max_power: 'Công suất tối đa',
+    max_torque: 'Mô-men xoắn cực đại',
+    battery: 'Dung lượng pin',
+    range: 'Quãng đường di chuyển',
+    top_speed: 'Tốc độ tối đa',
     seats: 'Số chỗ ngồi',
-    charging: 'Sạc nhanh',
-    dimensions: 'Kích thước',
-    weight: 'Khối lượng'
+    charging: 'Thời gian sạc nhanh',
+    drive: 'Hệ dẫn động'
   };
 
   const rows = [];
