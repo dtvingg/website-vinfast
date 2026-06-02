@@ -1112,10 +1112,13 @@ a.car-card {
   vertical-align: middle;
 }
 
+.specs-table th,
 .specs-table td:first-child {
   font-weight: 600;
   color: var(--color-text);
   width: 45%;
+  text-align: left;
+  padding-left: 1.25rem;
 }
 
 .specs-table td:last-child {
