@@ -17,10 +17,58 @@
   },
   {
     "id": 3,
-    "title": "VF 8 — Đẳng Cấp Mới",
-    "subtitle": "SUV điện cỡ C sang trọng nhất phân khúc",
+    "title": "Lên Đời Xe Xanh — Tối Ưu Chi Phí",
+    "subtitle": "Tiết kiệm chi phí vận hành mỗi ngày",
     "image": "/storage/banners/vinfast-len-doi-xe-xanh-toi-uu-chi-phi-desktop.jpg",
     "link": "/cars.html",
     "order": 3
+  },
+  {
+    "id": 4,
+    "title": "Chính Sách Mầm Non Xanh",
+    "subtitle": "Ưu đãi đặc biệt dành cho gia đình trẻ",
+    "image": "/storage/banners/vinfast-chinh-sach-mam-non-xanh-desktop.jpg",
+    "link": "/cars.html",
+    "order": 4
+  },
+  {
+    "id": 5,
+    "title": "Giải Pháp Di Chuyển Xanh",
+    "subtitle": "Tương lai bền vững cùng VinFast",
+    "image": "/storage/banners/vinfast-giai-phap-di-chuyen-xanh-desktop.jpg",
+    "link": "/cars.html",
+    "order": 5
+  },
+  {
+    "id": 6,
+    "title": "VF MPV7 — Bạn Đồng Hành Đại Gia Đình",
+    "subtitle": "MPV điện 7 chỗ rộng rãi và tiện nghi",
+    "image": "/storage/banners/vinfast-vf-mpv7-ban-dong-hanh-dai-gia-dinh-desktop.jpg",
+    "link": "/cars.html",
+    "order": 6
+  },
+  {
+    "id": 7,
+    "title": "VF 3 — Sành Điệu & Sáng Tạo",
+    "subtitle": "Mini SUV cá tính, năng động cho đô thị",
+    "image": "/storage/banners/vinfast-vf3-sanh-dieu-sang-tao-desktop.png",
+    "link": "/cars.html?id=vf3",
+    "order": 7
+  },
+  {
+    "id": 8,
+    "title": "VF 8 Thế Hệ Mới — Ưu Đãi Đặt Cọc 51 Triệu",
+    "subtitle": "Cơ hội sở hữu SUV điện đẳng cấp",
+    "image": "/storage/banners/vinfast-vf8-the-he-moi-uu-dai-dat-coc-51-trieu-banner-desktop.jpg",
+    "link": "/cars.html?id=vf8",
+    "order": 8
+  },
+  {
+    "id": 9,
+    "title": "Xe Dịch Vụ — Đầu Tư 0 Đồng",
+    "subtitle": "Kinh doanh xe điện hiệu quả cùng VinFast",
+    "image": "/storage/banners/vinfast-xe-dich-vu-dau-tu-0-dong-desktop.jpg",
+    "link": "/cars.html",
+    "order": 9
   }
 ]
