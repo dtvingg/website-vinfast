@@ -17,6 +17,8 @@ Website giới thiệu xe điện VinFast chính hãng, xây dựng bằng HTML/
 ```
 website_vinfast/
 ├── frontend/          # Giao diện (HTML, CSS, JS)
+│   ├── robots.txt
+│   └── sitemap.xml
 ├── backend/           # API Node.js + Express
 │   ├── src/
 │   └── data/          # Dữ liệu JSON (xe, banner, đơn tư vấn...)
@@ -24,8 +26,7 @@ website_vinfast/
 │   ├── banners/
 │   └── cars/
 ├── nginx/
-│   ├── nginx-http-only.conf   # Config đang dùng (Cloudflare Tunnel)
-│   └── nginx.conf             # Config dự phòng (Let's Encrypt trực tiếp)
+│   └── nginx-http-only.conf   # Config đang dùng (Cloudflare Tunnel)
 ├── certbot/           # Chứng chỉ SSL Let's Encrypt (dự phòng)
 ├── docker-compose.yml
 └── README.md
@@ -88,37 +89,9 @@ Truy cập: **https://vinfastmanhhien.click**
 
 ---
 
-## Cài tunnel tự động khi khởi động Windows
-
-Để không phải mở terminal mỗi lần, cài tunnel như Windows service:
-
-```powershell
-# Chạy PowerShell với quyền Administrator
-cloudflared service install
-```
-
-Sau đó tunnel tự chạy ngầm mỗi khi Windows khởi động.
-
-Kiểm tra trạng thái:
-```powershell
-Get-Service cloudflared
-```
-
-Dừng / khởi động lại:
-```powershell
-Stop-Service cloudflared
-Start-Service cloudflared
-```
-
----
-
 ## Cấu hình biến môi trường
 
 Telegram Bot Token và Chat ID được cấu hình qua file `.env` ở thư mục gốc:
-
-```
-.env
-```
 
 ```env
 TELEGRAM_BOT_TOKEN=token_bot_của_bạn
@@ -126,7 +99,6 @@ TELEGRAM_CHAT_ID=chat_id_của_bạn
 ```
 
 > **Lưu ý bảo mật:** File `.env` đã được thêm vào `.gitignore` — không bao giờ commit file này lên git.
-> Tham khảo `.env.example` để biết cấu trúc.
 
 Sau khi sửa `.env`, cần rebuild lại backend:
 
@@ -138,19 +110,11 @@ docker compose up -d --build backend
 
 ## Cấu hình nội dung
 
-Thông tin liên hệ và tên miền được cấu hình tại:
-
-```
-backend/data/settings.json
-```
+Thông tin liên hệ được cấu hình tại `backend/data/settings.json`:
 
 ```json
 {
-  "site": {
-    "domain": "vinfastmanhhien.click",
-    "url": "https://vinfastmanhhien.click",
-    "title": "VinFast Mạnh Hiển"
-  },
+  "site": { "domain": "vinfastmanhhien.click", "url": "https://vinfastmanhhien.click", "title": "VinFast Mạnh Hiển" },
   "consultant": {
     "name": "Tư vấn bán hàng: Đào Mạnh Hiển",
     "phone": "0912475576",
@@ -173,29 +137,47 @@ Chỉnh sửa file `backend/data/cars.json`. Mỗi xe có cấu trúc:
 ```json
 {
   "id": "vf3",
-  "name": "VF 3",
-  "type": "mini",
-  "priceFrom": 235000000,
-  "priceTo": 260000000,
+  "name": "VinFast VF3",
+  "type": "VF3",
+  "priceFrom": 302000000,
+  "priceTo": 315000000,
   "description": "Mô tả xe...",
   "specs": {
-    "engine": "Điện",
-    "power": "42 mã lực",
-    "range": "210 km",
+    "dimensions": "3.190 x 1.679 x 1.622 mm",
+    "wheelbase": "2.075 mm",
+    "ground_clearance": "191 mm",
+    "engine": "Động cơ điện",
+    "max_power": "32 kW (43 hp)",
+    "max_torque": "110 Nm",
+    "battery": "18,64 kWh",
+    "range": "210 km (NEDC)",
+    "top_speed": "100 km/h",
     "seats": 4,
-    "charging": "Sạc nhanh DC 30 phút"
+    "charging": "36 phút (10% - 70%)",
+    "drive": "RWD"
   },
-  "colors": ["Trắng", "Đen", "Xanh"],
-  "thumbnail": "/storage/cars/vf3/thumb.jpg",
-  "images": [
-    "/storage/cars/vf3/img1.jpg",
-    "/storage/cars/vf3/img2.jpg"
-  ],
+  "colors": ["Trắng Ngọc Trai", "Đỏ Đậm"],
+  "thumbnail": "/storage/cars/vf3/mint01.png",
+  "images": ["/storage/cars/vf3/mint01.png"],
   "featured": true
 }
 ```
 
-**Loại xe (`type`):** `mini` | `suv` | `suv-7cho`
+**Danh sách xe hiện có:**
+
+| ID | Tên |
+|----|-----|
+| `vf3` | VinFast VF3 |
+| `vf5` | VinFast VF5 |
+| `vf6` | VinFast VF6 |
+| `vf7` | VinFast VF7 |
+| `vf8` | VinFast VF8 |
+| `vf9` | VinFast VF9 |
+| `minio-green` | VinFast Minio Green |
+| `herio-green` | VinFast Herio Green |
+| `nerio-green` | VinFast Nerio Green |
+| `limo-green` | VinFast Limo Green |
+| `ec-van` | VinFast EC Van |
 
 Ảnh xe đặt vào thư mục: `storage/cars/<id>/`
 
@@ -231,7 +213,44 @@ Chỉnh sửa file `backend/data/banners.json`:
 | GET | `/api/banners` | Danh sách banner |
 | GET | `/api/settings` | Thông tin liên hệ |
 | POST | `/api/consultations` | Gửi form tư vấn |
+| POST | `/api/track` | Ghi nhận lượt truy cập |
 | GET | `/api/stats` | Thống kê lượt truy cập |
+| POST | `/api/telegram/webhook` | Nhận lệnh từ Telegram Bot |
+
+---
+
+## Telegram Bot — Thống kê
+
+Bot Telegram hỗ trợ tra cứu thống kê truy cập và tư vấn qua lệnh chat.
+
+### Đăng ký webhook (chạy 1 lần sau khi deploy)
+
+```bash
+curl "https://api.telegram.org/bot<TOKEN>/setWebhook?url=https://vinfastmanhhien.click/api/telegram/webhook"
+```
+
+### Các lệnh hỗ trợ
+
+| Lệnh | Mô tả |
+|------|-------|
+| `/thongke` | Tổng quan hôm nay / tháng / quý / năm |
+| `/thongke ngay` | Hôm nay |
+| `/thongke ngay 02/06/2026` | Ngày cụ thể |
+| `/thongke thang` | Tháng này |
+| `/thongke thang 06/2026` | Tháng cụ thể |
+| `/thongke quy` | Quý này |
+| `/thongke quy 2/2026` | Quý cụ thể (1–4) |
+| `/thongke nam` | Năm này |
+| `/thongke nam 2026` | Năm cụ thể |
+| `/help` | Danh sách lệnh |
+
+---
+
+## SEO
+
+- `frontend/robots.txt` — cho phép Google crawl toàn bộ, trỏ đến sitemap
+- `frontend/sitemap.xml` — liệt kê tất cả URL cần index
+- Submit sitemap tại **Google Search Console** → Sitemaps → `sitemap.xml`
 
 ---
 
@@ -240,10 +259,10 @@ Chỉnh sửa file `backend/data/banners.json`:
 | Triệu chứng | Kiểm tra |
 |-------------|----------|
 | Trang trắng | `docker logs vinfast-nginx` |
-| API lỗi 502 | `docker compose restart nginx` (nginx cần re-resolve DNS sau khi backend restart) |
+| API lỗi 502 | `docker compose restart nginx` |
 | API lỗi 500 | `docker logs vinfast-backend` |
-| API lỗi 429 | Quá nhiều request từ một IP — rate limit: 5 lần/phút với `/api/consultations`, 30 lần/phút với `/api/track` |
-| Tunnel không kết nối | `cloudflared tunnel info vinfast` |
-| Ảnh không hiện | Kiểm tra đường dẫn trong JSON có khớp với file trong `storage/` |
+| API lỗi 429 | Rate limit: 5 req/phút (`/api/consultations`), 30 req/phút (`/api/track`) |
+| JS/CSS không cập nhật | Ctrl+Shift+R (nginx đã cấu hình `no-cache` cho JS/CSS) |
+| Ảnh không hiện | Kiểm tra đường dẫn trong JSON khớp với file trong `storage/` |
+| Bot Telegram không phản hồi | Kiểm tra `TELEGRAM_BOT_TOKEN`, `TELEGRAM_CHAT_ID` và webhook đã đăng ký chưa |
 | Container không khởi động | `docker compose ps` xem trạng thái |
-| Backend không nhận Telegram | Kiểm tra `TELEGRAM_BOT_TOKEN` và `TELEGRAM_CHAT_ID` trong file `.env` |
