@@ -45,6 +45,7 @@ app.use('/api/settings', require('./routes/settings'));
 app.use('/api/consultations', rateLimit(5, 60_000), require('./routes/consultations'));
 app.use('/api/track', rateLimit(30, 60_000), require('./routes/track'));
 app.use('/api/stats', require('./routes/stats'));
+app.use('/api/telegram', require('./routes/telegram'));
 
 app.listen(PORT, () => {
   console.log(`VinFast backend running on port ${PORT}`);
