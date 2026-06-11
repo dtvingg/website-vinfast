@@ -1,0 +1,150 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Đăng nhập Admin - VinFast Mạnh Hiển</title>
+  <meta name="robots" content="noindex, nofollow" />
+  <style>
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body {
+      font-family: 'Segoe UI', Arial, sans-serif;
+      background: linear-gradient(135deg, #002147 0%, #004a9f 100%);
+      min-height: 100vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+    .login-card {
+      background: #fff;
+      border-radius: 12px;
+      padding: 40px 36px;
+      width: 100%;
+      max-width: 400px;
+      box-shadow: 0 20px 60px rgba(0,0,0,0.3);
+    }
+    .logo {
+      text-align: center;
+      margin-bottom: 28px;
+    }
+    .logo img { height: 48px; }
+    .logo h2 {
+      margin-top: 12px;
+      font-size: 20px;
+      color: #002147;
+      font-weight: 700;
+    }
+    .logo p {
+      font-size: 13px;
+      color: #666;
+      margin-top: 4px;
+    }
+    .form-group {
+      margin-bottom: 18px;
+    }
+    label {
+      display: block;
+      font-size: 13px;
+      font-weight: 600;
+      color: #333;
+      margin-bottom: 6px;
+    }
+    input {
+      width: 100%;
+      padding: 11px 14px;
+      border: 1.5px solid #ddd;
+      border-radius: 8px;
+      font-size: 15px;
+      transition: border-color 0.2s;
+      outline: none;
+    }
+    input:focus { border-color: #004a9f; }
+    .btn-login {
+      width: 100%;
+      padding: 13px;
+      background: #002147;
+      color: #fff;
+      border: none;
+      border-radius: 8px;
+      font-size: 15px;
+      font-weight: 700;
+      cursor: pointer;
+      transition: background 0.2s;
+      margin-top: 6px;
+    }
+    .btn-login:hover { background: #004a9f; }
+    .btn-login:disabled { background: #aaa; cursor: not-allowed; }
+    .error-msg {
+      background: #fef2f2;
+      color: #c00;
+      border: 1px solid #fca5a5;
+      border-radius: 8px;
+      padding: 10px 14px;
+      font-size: 13px;
+      margin-bottom: 16px;
+      display: none;
+    }
+  </style>
+</head>
+<body>
+  <div class="login-card">
+    <div class="logo">
+      <img src="/storage/logos/vector-logo-vinfast.png" alt="VinFast" />
+      <h2>Quản trị Admin</h2>
+      <p>VinFast Mạnh Hiển</p>
+    </div>
+    <div class="error-msg" id="errorMsg"></div>
+    <form id="loginForm">
+      <div class="form-group">
+        <label for="username">Tên đăng nhập</label>
+        <input type="text" id="username" placeholder="Nhập tên đăng nhập" autocomplete="username" required />
+      </div>
+      <div class="form-group">
+        <label for="password">Mật khẩu</label>
+        <input type="password" id="password" placeholder="Nhập mật khẩu" autocomplete="current-password" required />
+      </div>
+      <button type="submit" class="btn-login" id="btnLogin">Đăng nhập</button>
+    </form>
+  </div>
+
+  <script>
+    if (localStorage.getItem('adminToken')) {
+      window.location.href = '/admin/';
+    }
+
+    document.getElementById('loginForm').addEventListener('submit', async (e) => {
+      e.preventDefault();
+      const btn = document.getElementById('btnLogin');
+      const errorMsg = document.getElementById('errorMsg');
+      btn.disabled = true;
+      btn.textContent = 'Đang đăng nhập...';
+      errorMsg.style.display = 'none';
+
+      const username = document.getElementById('username').value.trim();
+      const password = document.getElementById('password').value;
+
+      try {
+        const res = await fetch('/api/admin/login', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ username, password })
+        });
+        const data = await res.json();
+        if (!res.ok) {
+          errorMsg.textContent = data.error || 'Đăng nhập thất bại';
+          errorMsg.style.display = 'block';
+        } else {
+          localStorage.setItem('adminToken', data.token);
+          window.location.href = '/admin/';
+        }
+      } catch {
+        errorMsg.textContent = 'Lỗi kết nối server';
+        errorMsg.style.display = 'block';
+      } finally {
+        btn.disabled = false;
+        btn.textContent = 'Đăng nhập';
+      }
+    });
+  </script>
+</body>
+</html>

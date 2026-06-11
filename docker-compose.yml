@@ -10,6 +10,9 @@ services:
       - PORT=3000
       - TELEGRAM_BOT_TOKEN=${TELEGRAM_BOT_TOKEN}
       - TELEGRAM_CHAT_ID=${TELEGRAM_CHAT_ID}
+      - ADMIN_USERNAME=${ADMIN_USERNAME:-admin}
+      - ADMIN_PASSWORD=${ADMIN_PASSWORD:-admin}
+      - JWT_SECRET=${JWT_SECRET:-secret_key}
     volumes:
       - ./backend/data:/app/data
       - ./storage:/app/storage

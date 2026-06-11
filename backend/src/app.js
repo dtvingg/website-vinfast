@@ -1,3 +1,5 @@
+require('dotenv').config({ path: require('path').join(__dirname, '../../.env') });
+
 const express = require('express');
 const cors = require('cors');
 const path = require('path');
@@ -39,6 +41,8 @@ const STORAGE_DIR  = path.join(__dirname, '../..', 'storage');
 app.use('/storage', express.static(STORAGE_DIR));
 app.use(express.static(FRONTEND_DIR));
 
+app.use('/api/admin', rateLimit(10, 60_000), require('./routes/admin'));
+app.use('/api/upload', require('./routes/upload'));
 app.use('/api/cars', require('./routes/cars'));
 app.use('/api/banners', require('./routes/banners'));
 app.use('/api/settings', require('./routes/settings'));

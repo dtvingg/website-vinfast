@@ -1,0 +1,915 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Admin Dashboard - VinFast Mạnh Hiển</title>
+  <meta name="robots" content="noindex, nofollow" />
+  <style>
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body { font-family: 'Segoe UI', Arial, sans-serif; background: #f4f6fb; color: #222; }
+
+    .header {
+      background: #002147;
+      color: #fff;
+      padding: 0 24px;
+      height: 60px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      position: sticky;
+      top: 0;
+      z-index: 100;
+    }
+    .header-left { display: flex; align-items: center; gap: 12px; }
+    .header-left img { height: 34px; }
+    .header-left span { font-size: 17px; font-weight: 700; }
+    .header-right { display: flex; align-items: center; gap: 16px; }
+    .admin-name { font-size: 13px; opacity: 0.85; }
+    .btn-logout {
+      background: rgba(255,255,255,0.15);
+      color: #fff;
+      border: 1px solid rgba(255,255,255,0.3);
+      border-radius: 6px;
+      padding: 6px 14px;
+      font-size: 13px;
+      cursor: pointer;
+      transition: background 0.2s;
+    }
+    .btn-logout:hover { background: rgba(255,255,255,0.25); }
+
+    .main { max-width: 1200px; margin: 0 auto; padding: 28px 20px; }
+    .page-title { font-size: 22px; font-weight: 700; color: #002147; margin-bottom: 20px; }
+
+    .toolbar {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      margin-bottom: 18px;
+      gap: 12px;
+      flex-wrap: wrap;
+    }
+    .search-input {
+      flex: 1;
+      min-width: 200px;
+      max-width: 340px;
+      padding: 9px 14px;
+      border: 1.5px solid #ddd;
+      border-radius: 8px;
+      font-size: 14px;
+      outline: none;
+    }
+    .search-input:focus { border-color: #004a9f; }
+    .btn-add {
+      background: #002147;
+      color: #fff;
+      border: none;
+      border-radius: 8px;
+      padding: 10px 20px;
+      font-size: 14px;
+      font-weight: 600;
+      cursor: pointer;
+      transition: background 0.2s;
+      white-space: nowrap;
+    }
+    .btn-add:hover { background: #004a9f; }
+
+    .table-wrap {
+      background: #fff;
+      border-radius: 12px;
+      box-shadow: 0 2px 12px rgba(0,0,0,0.06);
+      overflow: hidden;
+    }
+    table { width: 100%; border-collapse: collapse; }
+    th {
+      background: #f0f4fa;
+      color: #002147;
+      font-weight: 700;
+      font-size: 13px;
+      padding: 13px 16px;
+      text-align: left;
+      border-bottom: 1.5px solid #e0e7f0;
+    }
+    td {
+      padding: 12px 16px;
+      font-size: 14px;
+      border-bottom: 1px solid #f0f0f0;
+      vertical-align: middle;
+    }
+    tr:last-child td { border-bottom: none; }
+    tr:hover td { background: #f8faff; }
+    .car-thumb {
+      width: 64px;
+      height: 40px;
+      object-fit: cover;
+      border-radius: 6px;
+      background: #eee;
+    }
+    .car-name { font-weight: 600; color: #002147; }
+    .car-id { font-size: 12px; color: #888; }
+    .badge {
+      display: inline-block;
+      padding: 2px 8px;
+      border-radius: 100px;
+      font-size: 12px;
+      font-weight: 600;
+    }
+    .badge-featured { background: #dcfce7; color: #16a34a; }
+    .badge-normal { background: #f3f4f6; color: #666; }
+    .actions { display: flex; gap: 8px; }
+    .btn-edit {
+      background: #e8f0fe;
+      color: #1a56db;
+      border: none;
+      border-radius: 6px;
+      padding: 6px 12px;
+      font-size: 13px;
+      font-weight: 600;
+      cursor: pointer;
+    }
+    .btn-edit:hover { background: #c7d7fe; }
+    .btn-delete {
+      background: #fef2f2;
+      color: #dc2626;
+      border: none;
+      border-radius: 6px;
+      padding: 6px 12px;
+      font-size: 13px;
+      font-weight: 600;
+      cursor: pointer;
+    }
+    .btn-delete:hover { background: #fecaca; }
+    .empty-state { text-align: center; padding: 48px; color: #888; }
+
+    /* Modal */
+    .modal-overlay {
+      display: none;
+      position: fixed;
+      inset: 0;
+      background: rgba(0,0,0,0.45);
+      z-index: 200;
+      align-items: flex-start;
+      justify-content: center;
+      padding: 40px 16px;
+      overflow-y: auto;
+    }
+    .modal-overlay.active { display: flex; }
+    .modal {
+      background: #fff;
+      border-radius: 14px;
+      width: 100%;
+      max-width: 720px;
+      padding: 32px;
+      box-shadow: 0 24px 80px rgba(0,0,0,0.18);
+      position: relative;
+    }
+    .modal-title { font-size: 20px; font-weight: 700; color: #002147; margin-bottom: 24px; }
+    .modal-close {
+      position: absolute;
+      top: 18px;
+      right: 20px;
+      background: none;
+      border: none;
+      font-size: 22px;
+      cursor: pointer;
+      color: #888;
+      line-height: 1;
+    }
+    .modal-close:hover { color: #333; }
+    .form-row { display: flex; gap: 16px; }
+    .form-row .form-group { flex: 1; }
+    .form-group { margin-bottom: 16px; }
+    .form-group label {
+      display: block;
+      font-size: 13px;
+      font-weight: 600;
+      color: #333;
+      margin-bottom: 5px;
+    }
+    .form-group input,
+    .form-group textarea,
+    .form-group select {
+      width: 100%;
+      padding: 9px 12px;
+      border: 1.5px solid #ddd;
+      border-radius: 7px;
+      font-size: 14px;
+      font-family: inherit;
+      outline: none;
+      transition: border-color 0.2s;
+    }
+    .form-group input:focus,
+    .form-group textarea:focus { border-color: #004a9f; }
+    .form-group textarea { resize: vertical; min-height: 80px; }
+    .form-section {
+      font-size: 12px;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.06em;
+      color: #888;
+      margin: 20px 0 12px;
+      padding-bottom: 6px;
+      border-bottom: 1px solid #eee;
+    }
+    .modal-actions {
+      display: flex;
+      gap: 10px;
+      justify-content: flex-end;
+      margin-top: 24px;
+    }
+    .btn-cancel {
+      background: #f3f4f6;
+      color: #555;
+      border: none;
+      border-radius: 8px;
+      padding: 10px 20px;
+      font-size: 14px;
+      font-weight: 600;
+      cursor: pointer;
+    }
+    .btn-cancel:hover { background: #e5e7eb; }
+    .btn-save {
+      background: #002147;
+      color: #fff;
+      border: none;
+      border-radius: 8px;
+      padding: 10px 24px;
+      font-size: 14px;
+      font-weight: 700;
+      cursor: pointer;
+    }
+    .btn-save:hover { background: #004a9f; }
+    .btn-save:disabled { background: #aaa; cursor: not-allowed; }
+    .confirm-modal { max-width: 380px; }
+    .confirm-modal p { color: #555; margin-bottom: 24px; line-height: 1.5; }
+    .btn-danger {
+      background: #dc2626;
+      color: #fff;
+      border: none;
+      border-radius: 8px;
+      padding: 10px 24px;
+      font-size: 14px;
+      font-weight: 700;
+      cursor: pointer;
+    }
+    .btn-danger:hover { background: #b91c1c; }
+
+    /* Image gallery */
+    .img-gallery {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+      margin-top: 6px;
+    }
+    .img-card {
+      position: relative;
+      width: 110px;
+      border: 2px solid #e5e7eb;
+      border-radius: 8px;
+      overflow: hidden;
+      background: #f8f8f8;
+      transition: border-color 0.15s;
+    }
+    .img-card.is-thumb { border-color: #004a9f; }
+    .img-card img {
+      width: 100%;
+      height: 70px;
+      object-fit: cover;
+      display: block;
+    }
+    .img-card-footer {
+      padding: 5px 6px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 4px;
+      background: #fff;
+    }
+    .thumb-label {
+      display: flex;
+      align-items: center;
+      gap: 4px;
+      font-size: 11px;
+      color: #555;
+      cursor: pointer;
+      white-space: nowrap;
+    }
+    .thumb-label input[type=radio] { width: 13px; height: 13px; accent-color: #004a9f; }
+    .img-remove {
+      background: #fef2f2;
+      color: #dc2626;
+      border: none;
+      border-radius: 4px;
+      width: 22px;
+      height: 22px;
+      font-size: 14px;
+      line-height: 1;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-shrink: 0;
+    }
+    .img-remove:hover { background: #fecaca; }
+    .img-add-btn {
+      width: 110px;
+      height: 96px;
+      border: 2px dashed #cbd5e1;
+      border-radius: 8px;
+      background: #f8faff;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+      color: #94a3b8;
+      font-size: 13px;
+      gap: 4px;
+      transition: border-color 0.15s, color 0.15s;
+    }
+    .img-add-btn:hover { border-color: #004a9f; color: #004a9f; }
+    .img-add-btn span { font-size: 26px; line-height: 1; }
+    .img-upload-hint { font-size: 12px; color: #94a3b8; margin-top: 6px; }
+    .img-uploading {
+      opacity: 0.5;
+      pointer-events: none;
+    }
+    .img-card .img-uploading-overlay {
+      position: absolute;
+      inset: 0;
+      background: rgba(255,255,255,0.7);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 12px;
+      color: #555;
+    }
+
+    /* Toast */
+    .toast {
+      position: fixed;
+      bottom: 28px;
+      right: 28px;
+      background: #002147;
+      color: #fff;
+      padding: 13px 22px;
+      border-radius: 10px;
+      font-size: 14px;
+      font-weight: 600;
+      z-index: 9999;
+      opacity: 0;
+      transform: translateY(16px);
+      transition: opacity 0.3s, transform 0.3s;
+      pointer-events: none;
+    }
+    .toast.show { opacity: 1; transform: translateY(0); }
+    .toast.error { background: #dc2626; }
+
+    .featured-check { display: flex; align-items: center; gap: 8px; }
+    .featured-check input[type=checkbox] { width: 16px; height: 16px; }
+
+    @media (max-width: 640px) {
+      .form-row { flex-direction: column; gap: 0; }
+      th:nth-child(2), td:nth-child(2) { display: none; }
+      th:nth-child(5), td:nth-child(5) { display: none; }
+    }
+  </style>
+</head>
+<body>
+  <header class="header">
+    <div class="header-left">
+      <img src="/storage/logos/vector-logo-vinfast.png" alt="VinFast" />
+      <span>Admin Panel</span>
+    </div>
+    <div class="header-right">
+      <span class="admin-name" id="adminName"></span>
+      <a href="/" target="_blank" style="color:#fff;font-size:13px;opacity:.8;text-decoration:none;">Xem website</a>
+      <button class="btn-logout" onclick="logout()">Đăng xuất</button>
+    </div>
+  </header>
+
+  <main class="main">
+    <div class="page-title">Quản lý sản phẩm xe</div>
+    <div class="toolbar">
+      <input type="text" class="search-input" id="searchInput" placeholder="Tìm kiếm xe..." oninput="renderTable()" />
+      <button class="btn-add" onclick="openAddModal()">+ Thêm xe mới</button>
+    </div>
+    <div class="table-wrap">
+      <table>
+        <thead>
+          <tr>
+            <th>Ảnh</th>
+            <th>Tên xe / ID</th>
+            <th>Giá từ</th>
+            <th>Giá đến</th>
+            <th>Nổi bật</th>
+            <th>Thao tác</th>
+          </tr>
+        </thead>
+        <tbody id="tableBody">
+          <tr><td colspan="6" class="empty-state">Đang tải...</td></tr>
+        </tbody>
+      </table>
+    </div>
+  </main>
+
+  <!-- Modal thêm/sửa xe -->
+  <div class="modal-overlay" id="carModal">
+    <div class="modal">
+      <button class="modal-close" onclick="closeModal()">&#x2715;</button>
+      <div class="modal-title" id="modalTitle">Thêm xe mới</div>
+      <form id="carForm" onsubmit="saveCar(event)">
+        <div class="form-section">Thông tin cơ bản</div>
+        <div class="form-row">
+          <div class="form-group">
+            <label>ID xe *</label>
+            <input type="text" id="fId" placeholder="vd: vf3, vf5..." required />
+          </div>
+          <div class="form-group">
+            <label>Tên xe *</label>
+            <input type="text" id="fName" placeholder="vd: VinFast VF3" required />
+          </div>
+        </div>
+        <div class="form-row">
+          <div class="form-group">
+            <label>Type</label>
+            <input type="text" id="fType" placeholder="vd: VF3" />
+          </div>
+          <div class="form-group" style="display:flex;flex-direction:column;justify-content:flex-end;padding-bottom:4px;">
+            <label>&nbsp;</label>
+            <div class="featured-check">
+              <input type="checkbox" id="fFeatured" />
+              <label for="fFeatured" style="font-weight:400;font-size:14px;">Xe nổi bật</label>
+            </div>
+          </div>
+        </div>
+        <div class="form-row">
+          <div class="form-group">
+            <label>Giá từ (VNĐ)</label>
+            <input type="number" id="fPriceFrom" placeholder="302000000" min="0" />
+          </div>
+          <div class="form-group">
+            <label>Giá đến (VNĐ)</label>
+            <input type="number" id="fPriceTo" placeholder="315000000" min="0" />
+          </div>
+        </div>
+        <div class="form-group">
+          <label>Mô tả</label>
+          <textarea id="fDescription" placeholder="Mô tả xe..."></textarea>
+        </div>
+        <div class="form-group">
+          <label>Màu sắc (mỗi màu 1 dòng)</label>
+          <textarea id="fColors" placeholder="Trắng Ngọc Trai&#10;Đỏ Đậm&#10;Đen Ánh Kim" style="min-height:70px;"></textarea>
+        </div>
+
+        <!-- Ảnh sản phẩm -->
+        <div class="form-section">Ảnh sản phẩm</div>
+        <div style="margin-bottom:6px;font-size:13px;color:#555;">
+          Tích vào <b>Thumbnail</b> để chọn ảnh đại diện. Ấn <b>+</b> để thêm ảnh mới.
+        </div>
+        <div class="img-gallery" id="imgGallery"></div>
+        <div class="img-upload-hint">Hỗ trợ JPG, PNG, WEBP. Tối đa 5MB mỗi ảnh.</div>
+        <input type="file" id="imgFileInput" accept="image/*" style="display:none" multiple />
+
+        <div class="form-section">Thông số kỹ thuật</div>
+        <div class="form-row">
+          <div class="form-group">
+            <label>Kích thước (mm)</label>
+            <input type="text" id="sDimensions" placeholder="3.190 x 1.679 x 1.622 mm" />
+          </div>
+          <div class="form-group">
+            <label>Chiều dài cơ sở</label>
+            <input type="text" id="sWheelbase" placeholder="2.075 mm" />
+          </div>
+        </div>
+        <div class="form-row">
+          <div class="form-group">
+            <label>Loại động cơ</label>
+            <input type="text" id="sEngine" placeholder="Động cơ điện" />
+          </div>
+          <div class="form-group">
+            <label>Công suất tối đa</label>
+            <input type="text" id="sMaxPower" placeholder="32 kW (43 hp)" />
+          </div>
+        </div>
+        <div class="form-row">
+          <div class="form-group">
+            <label>Mô-men xoắn</label>
+            <input type="text" id="sMaxTorque" placeholder="110 Nm" />
+          </div>
+          <div class="form-group">
+            <label>Pin</label>
+            <input type="text" id="sBattery" placeholder="18,64 kWh" />
+          </div>
+        </div>
+        <div class="form-row">
+          <div class="form-group">
+            <label>Phạm vi di chuyển</label>
+            <input type="text" id="sRange" placeholder="210 km (NEDC)" />
+          </div>
+          <div class="form-group">
+            <label>Tốc độ tối đa</label>
+            <input type="text" id="sTopSpeed" placeholder="100 km/h" />
+          </div>
+        </div>
+        <div class="form-row">
+          <div class="form-group">
+            <label>Số ghế</label>
+            <input type="number" id="sSeats" placeholder="4" min="1" />
+          </div>
+          <div class="form-group">
+            <label>Dẫn động</label>
+            <input type="text" id="sDrive" placeholder="RWD / FWD / AWD" />
+          </div>
+        </div>
+        <div class="form-group">
+          <label>Thời gian sạc</label>
+          <input type="text" id="sCharging" placeholder="36 phút (10% - 70%)" />
+        </div>
+
+        <div class="modal-actions">
+          <button type="button" class="btn-cancel" onclick="closeModal()">Hủy</button>
+          <button type="submit" class="btn-save" id="btnSave">Lưu xe</button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <!-- Modal xác nhận xóa -->
+  <div class="modal-overlay" id="confirmModal">
+    <div class="modal confirm-modal">
+      <button class="modal-close" onclick="closeConfirm()">&#x2715;</button>
+      <div class="modal-title">Xác nhận xóa</div>
+      <p>Bạn có chắc muốn xóa xe <strong id="confirmCarName"></strong>? Hành động này không thể hoàn tác.</p>
+      <div class="modal-actions">
+        <button class="btn-cancel" onclick="closeConfirm()">Hủy</button>
+        <button class="btn-danger" onclick="confirmDelete()">Xóa</button>
+      </div>
+    </div>
+  </div>
+
+  <div class="toast" id="toast"></div>
+
+  <script>
+    const API = '/api/cars';
+    let cars = [];
+    let editingId = null;
+    let deletingId = null;
+
+    // Danh sách ảnh hiện tại trong modal: [{src, isThumb}]
+    let galleryImages = [];
+
+    function getToken() { return localStorage.getItem('adminToken'); }
+    function authHeaders() {
+      return { 'Content-Type': 'application/json', 'Authorization': 'Bearer ' + getToken() };
+    }
+    function logout() {
+      localStorage.removeItem('adminToken');
+      window.location.href = '/admin/login.html';
+    }
+    function showToast(msg, isError = false) {
+      const t = document.getElementById('toast');
+      t.textContent = msg;
+      t.className = 'toast show' + (isError ? ' error' : '');
+      setTimeout(() => { t.className = 'toast'; }, 3200);
+    }
+    function formatPrice(n) {
+      if (!n) return '-';
+      return Number(n).toLocaleString('vi-VN') + ' đ';
+    }
+
+    // ─── Image Gallery ───────────────────────────────────────────────
+
+    function renderGallery() {
+      const gallery = document.getElementById('imgGallery');
+      gallery.innerHTML = '';
+
+      galleryImages.forEach((img, idx) => {
+        const card = document.createElement('div');
+        card.className = 'img-card' + (img.isThumb ? ' is-thumb' : '');
+        card.innerHTML = `
+          <img src="${img.src}" alt="ảnh ${idx + 1}" onerror="this.src='data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 width=%22110%22 height=%2270%22><rect fill=%22%23eee%22 width=%22110%22 height=%2270%22/><text x=%2255%22 y=%2240%22 text-anchor=%22middle%22 fill=%22%23aaa%22 font-size=%2212%22>Lỗi ảnh</text></svg>'" />
+          <div class="img-card-footer">
+            <label class="thumb-label">
+              <input type="radio" name="thumbRadio" value="${idx}" ${img.isThumb ? 'checked' : ''} onchange="setThumbnail(${idx})" />
+              Thumb
+            </label>
+            <button type="button" class="img-remove" onclick="removeImage(${idx})" title="Xóa ảnh">&#x2715;</button>
+          </div>
+        `;
+        gallery.appendChild(card);
+      });
+
+      // Nút thêm ảnh
+      const addBtn = document.createElement('div');
+      addBtn.className = 'img-add-btn';
+      addBtn.innerHTML = '<span>+</span><small>Thêm ảnh</small>';
+      addBtn.onclick = () => document.getElementById('imgFileInput').click();
+      gallery.appendChild(addBtn);
+    }
+
+    function setThumbnail(idx) {
+      galleryImages = galleryImages.map((img, i) => ({ ...img, isThumb: i === idx }));
+      renderGallery();
+    }
+
+    function removeImage(idx) {
+      const wasThumb = galleryImages[idx].isThumb;
+      galleryImages.splice(idx, 1);
+      // Nếu xóa thumb thì gán thumb cho ảnh đầu tiên
+      if (wasThumb && galleryImages.length > 0) galleryImages[0].isThumb = true;
+      renderGallery();
+    }
+
+    async function uploadFiles(files) {
+      const carId = document.getElementById('fId').value.trim();
+      if (!carId) {
+        showToast('Vui lòng nhập ID xe trước khi thêm ảnh', true);
+        return;
+      }
+
+      for (const file of files) {
+        // Kiểm tra trùng tên trong gallery hiện tại
+        const filename = file.name.replace(/[^a-zA-Z0-9_.-]/g, '_');
+        const alreadyInGallery = galleryImages.some(img => img.src.endsWith('/' + filename) || img.src.endsWith('/' + file.name));
+        if (alreadyInGallery) {
+          showToast(`Ảnh "${file.name}" đã có trong danh sách`, true);
+          continue;
+        }
+
+        // Preview tạm bằng object URL
+        const tempSrc = URL.createObjectURL(file);
+        const tempIdx = galleryImages.length;
+        const isFirst = galleryImages.length === 0;
+        galleryImages.push({ src: tempSrc, isThumb: isFirst, uploading: true });
+        renderGallery();
+
+        const formData = new FormData();
+        formData.append('image', file);
+        formData.append('carId', carId);
+
+        try {
+          const res = await fetch('/api/upload?carId=' + encodeURIComponent(carId), {
+            method: 'POST',
+            headers: { 'Authorization': 'Bearer ' + getToken() },
+            body: formData
+          });
+          const data = await res.json();
+          if (!res.ok) {
+            showToast(data.error || 'Upload thất bại', true);
+            galleryImages.splice(tempIdx, 1);
+          } else {
+            galleryImages[tempIdx] = { src: data.path, isThumb: isFirst, uploading: false };
+            if (data.existed) showToast(`Ảnh "${file.name}" đã tồn tại, đã dùng ảnh hiện có`);
+          }
+        } catch {
+          showToast('Lỗi upload ảnh', true);
+          galleryImages.splice(tempIdx, 1);
+        }
+        renderGallery();
+      }
+    }
+
+    document.getElementById('imgFileInput').addEventListener('change', async (e) => {
+      const files = Array.from(e.target.files);
+      e.target.value = '';
+      if (files.length) await uploadFiles(files);
+    });
+
+    function initGallery(car) {
+      galleryImages = [];
+      if (car) {
+        const allImages = [];
+        if (car.thumbnail) allImages.push(car.thumbnail);
+        (car.images || []).forEach(src => {
+          if (!allImages.includes(src)) allImages.push(src);
+        });
+        galleryImages = allImages.map((src, i) => ({ src, isThumb: src === car.thumbnail || i === 0 }));
+        // Đảm bảo chỉ 1 thumb
+        const firstThumb = galleryImages.findIndex(g => g.isThumb);
+        galleryImages = galleryImages.map((g, i) => ({ ...g, isThumb: i === firstThumb }));
+      }
+      renderGallery();
+    }
+
+    // ─── Table ───────────────────────────────────────────────────────
+
+    function renderTable() {
+      const q = document.getElementById('searchInput').value.toLowerCase();
+      const filtered = cars.filter(c =>
+        c.name.toLowerCase().includes(q) || c.id.toLowerCase().includes(q)
+      );
+      const tbody = document.getElementById('tableBody');
+      if (!filtered.length) {
+        tbody.innerHTML = '<tr><td colspan="6" class="empty-state">Không tìm thấy xe nào</td></tr>';
+        return;
+      }
+      tbody.innerHTML = filtered.map(c => `
+        <tr>
+          <td>
+            ${c.thumbnail
+              ? `<img class="car-thumb" src="${c.thumbnail}" alt="${c.name}" onerror="this.style.display='none'" />`
+              : '<div class="car-thumb" style="background:#eee;border-radius:6px;"></div>'}
+          </td>
+          <td>
+            <div class="car-name">${c.name}</div>
+            <div class="car-id">${c.id}</div>
+          </td>
+          <td>${formatPrice(c.priceFrom)}</td>
+          <td>${formatPrice(c.priceTo)}</td>
+          <td>
+            <span class="badge ${c.featured ? 'badge-featured' : 'badge-normal'}">
+              ${c.featured ? 'Nổi bật' : 'Thường'}
+            </span>
+          </td>
+          <td>
+            <div class="actions">
+              <button class="btn-edit" onclick="openEditModal('${c.id}')">Sửa</button>
+              <button class="btn-delete" onclick="openDeleteConfirm('${c.id}', '${c.name.replace(/'/g, "\\'")}')">Xóa</button>
+            </div>
+          </td>
+        </tr>
+      `).join('');
+    }
+
+    async function loadCars() {
+      try {
+        const res = await fetch(API);
+        cars = await res.json();
+        renderTable();
+      } catch {
+        showToast('Lỗi tải danh sách xe', true);
+      }
+    }
+
+    // ─── Modal ───────────────────────────────────────────────────────
+
+    function resetForm() {
+      document.getElementById('carForm').reset();
+    }
+
+    function openAddModal() {
+      editingId = null;
+      document.getElementById('modalTitle').textContent = 'Thêm xe mới';
+      document.getElementById('fId').disabled = false;
+      resetForm();
+      initGallery(null);
+      document.getElementById('carModal').classList.add('active');
+    }
+
+    function openEditModal(id) {
+      const car = cars.find(c => c.id === id);
+      if (!car) return;
+      editingId = id;
+      document.getElementById('modalTitle').textContent = 'Sửa xe: ' + car.name;
+      document.getElementById('fId').value = car.id;
+      document.getElementById('fId').disabled = true;
+      document.getElementById('fName').value = car.name || '';
+      document.getElementById('fType').value = car.type || '';
+      document.getElementById('fFeatured').checked = !!car.featured;
+      document.getElementById('fPriceFrom').value = car.priceFrom || '';
+      document.getElementById('fPriceTo').value = car.priceTo || '';
+      document.getElementById('fDescription').value = car.description || '';
+      document.getElementById('fColors').value = (car.colors || []).join('\n');
+      const s = car.specs || {};
+      document.getElementById('sDimensions').value = s.dimensions || '';
+      document.getElementById('sWheelbase').value = s.wheelbase || '';
+      document.getElementById('sEngine').value = s.engine || '';
+      document.getElementById('sMaxPower').value = s.max_power || '';
+      document.getElementById('sMaxTorque').value = s.max_torque || '';
+      document.getElementById('sBattery').value = s.battery || '';
+      document.getElementById('sRange').value = s.range || '';
+      document.getElementById('sTopSpeed').value = s.top_speed || '';
+      document.getElementById('sSeats').value = s.seats || '';
+      document.getElementById('sDrive').value = s.drive || '';
+      document.getElementById('sCharging').value = s.charging || '';
+      initGallery(car);
+      document.getElementById('carModal').classList.add('active');
+    }
+
+    function closeModal() {
+      document.getElementById('carModal').classList.remove('active');
+    }
+
+    async function saveCar(e) {
+      e.preventDefault();
+      const btn = document.getElementById('btnSave');
+      btn.disabled = true;
+      btn.textContent = 'Đang lưu...';
+
+      const colors = document.getElementById('fColors').value
+        .split('\n').map(s => s.trim()).filter(Boolean);
+
+      const thumbImg = galleryImages.find(g => g.isThumb);
+      const thumbnail = thumbImg ? thumbImg.src : (galleryImages[0]?.src || '');
+      const images = galleryImages.map(g => g.src);
+
+      const payload = {
+        id: document.getElementById('fId').value.trim(),
+        name: document.getElementById('fName').value.trim(),
+        type: document.getElementById('fType').value.trim(),
+        featured: document.getElementById('fFeatured').checked,
+        priceFrom: Number(document.getElementById('fPriceFrom').value) || 0,
+        priceTo: Number(document.getElementById('fPriceTo').value) || 0,
+        description: document.getElementById('fDescription').value.trim(),
+        thumbnail,
+        images,
+        colors,
+        specs: {
+          dimensions: document.getElementById('sDimensions').value.trim(),
+          wheelbase: document.getElementById('sWheelbase').value.trim(),
+          engine: document.getElementById('sEngine').value.trim(),
+          max_power: document.getElementById('sMaxPower').value.trim(),
+          max_torque: document.getElementById('sMaxTorque').value.trim(),
+          battery: document.getElementById('sBattery').value.trim(),
+          range: document.getElementById('sRange').value.trim(),
+          top_speed: document.getElementById('sTopSpeed').value.trim(),
+          seats: Number(document.getElementById('sSeats').value) || 0,
+          drive: document.getElementById('sDrive').value.trim(),
+          charging: document.getElementById('sCharging').value.trim(),
+        }
+      };
+
+      try {
+        let res;
+        if (editingId) {
+          res = await fetch(`${API}/${editingId}`, {
+            method: 'PUT',
+            headers: authHeaders(),
+            body: JSON.stringify(payload)
+          });
+        } else {
+          res = await fetch(API, {
+            method: 'POST',
+            headers: authHeaders(),
+            body: JSON.stringify(payload)
+          });
+        }
+        if (res.status === 401) {
+          showToast('Phiên đăng nhập hết hạn, vui lòng đăng nhập lại', true);
+          setTimeout(logout, 1500);
+          return;
+        }
+        const data = await res.json();
+        if (!res.ok) {
+          showToast(data.error || 'Lỗi lưu xe', true);
+        } else {
+          showToast(editingId ? 'Cập nhật xe thành công!' : 'Thêm xe thành công!');
+          closeModal();
+          await loadCars();
+        }
+      } catch {
+        showToast('Lỗi kết nối server', true);
+      } finally {
+        btn.disabled = false;
+        btn.textContent = 'Lưu xe';
+      }
+    }
+
+    function openDeleteConfirm(id, name) {
+      deletingId = id;
+      document.getElementById('confirmCarName').textContent = name;
+      document.getElementById('confirmModal').classList.add('active');
+    }
+    function closeConfirm() {
+      document.getElementById('confirmModal').classList.remove('active');
+      deletingId = null;
+    }
+    async function confirmDelete() {
+      if (!deletingId) return;
+      try {
+        const res = await fetch(`${API}/${deletingId}`, {
+          method: 'DELETE',
+          headers: authHeaders()
+        });
+        if (res.status === 401) { showToast('Phiên đăng nhập hết hạn', true); setTimeout(logout, 1500); return; }
+        if (res.ok) {
+          showToast('Xóa xe thành công!');
+          closeConfirm();
+          await loadCars();
+        } else {
+          const d = await res.json();
+          showToast(d.error || 'Lỗi xóa xe', true);
+        }
+      } catch { showToast('Lỗi kết nối server', true); }
+    }
+
+    document.getElementById('carModal').addEventListener('click', function(e) {
+      if (e.target === this) closeModal();
+    });
+    document.getElementById('confirmModal').addEventListener('click', function(e) {
+      if (e.target === this) closeConfirm();
+    });
+
+    (function init() {
+      const token = getToken();
+      if (!token) { window.location.href = '/admin/login.html'; return; }
+      try {
+        const payload = JSON.parse(atob(token.split('.')[1]));
+        document.getElementById('adminName').textContent = payload.username || 'Admin';
+      } catch {}
+      loadCars();
+    })();
+  </script>
+</body>
+</html>

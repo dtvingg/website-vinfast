@@ -9,7 +9,6 @@
     "specs": {
       "dimensions": "3.190 x 1.679 x 1.622 mm",
       "wheelbase": "2.075 mm",
-      "ground_clearance": "191 mm",
       "engine": "Động cơ điện",
       "max_power": "32 kW (43 hp)",
       "max_torque": "110 Nm",
@@ -17,8 +16,8 @@
       "range": "210 km (NEDC)",
       "top_speed": "100 km/h",
       "seats": 4,
-      "charging": "36 phút (10% - 70%)",
-      "drive": "RWD"
+      "drive": "RWD",
+      "charging": "36 phút (10% - 70%)"
     },
     "colors": [
       "Trắng Ngọc Trai",
@@ -33,6 +32,7 @@
     ],
     "thumbnail": "/storage/cars/vf3/vf31-600x375.png",
     "images": [
+      "/storage/cars/vf3/vf31-600x375.png",
       "/storage/cars/vf3/mint01.png",
       "/storage/cars/vf3/rose01.png",
       "/storage/cars/vf3/yellow01.png"
@@ -253,7 +253,13 @@
       "charging": "Khoảng 4 giờ AC 3.3 kW",
       "drive": "RWD"
     },
-    "colors": ["Trắng Ngọc Trai", "Đỏ Đậm", "Đen Ánh Kim", "Xám Kim Loại", "Xanh Bạc Hà"],
+    "colors": [
+      "Trắng Ngọc Trai",
+      "Đỏ Đậm",
+      "Đen Ánh Kim",
+      "Xám Kim Loại",
+      "Xanh Bạc Hà"
+    ],
     "thumbnail": "/storage/cars/minio-green/Minio-Green.png",
     "images": [
       "/storage/cars/minio-green/Minio-Green.png",
@@ -289,7 +295,13 @@
       "charging": "33 phút (10% - 70%)",
       "drive": "FWD"
     },
-    "colors": ["Trắng Ngọc Trai", "Đỏ Đậm", "Đen Ánh Kim", "Xám Kim Loại", "Xanh Bạc Hà"],
+    "colors": [
+      "Trắng Ngọc Trai",
+      "Đỏ Đậm",
+      "Đen Ánh Kim",
+      "Xám Kim Loại",
+      "Xanh Bạc Hà"
+    ],
     "thumbnail": "/storage/cars/herio-green/1-10.jpg",
     "images": [
       "/storage/cars/herio-green/1-10.jpg",
@@ -321,7 +333,12 @@
       "charging": "27 phút (10% - 70%)",
       "drive": "FWD"
     },
-    "colors": ["Trắng Ngọc Trai", "Đen Ánh Kim", "Xám Kim Loại", "Xanh Bạc Hà"],
+    "colors": [
+      "Trắng Ngọc Trai",
+      "Đen Ánh Kim",
+      "Xám Kim Loại",
+      "Xanh Bạc Hà"
+    ],
     "thumbnail": "/storage/cars/nerio-green/Nerio-Green.png",
     "images": [
       "/storage/cars/nerio-green/Nerio-Green.png",
@@ -353,7 +370,12 @@
       "charging": "Khoảng 30 phút (10% - 70%)",
       "drive": "FWD"
     },
-    "colors": ["Trắng Ngọc Trai", "Đen Ánh Kim", "Xám Kim Loại", "Bạc"],
+    "colors": [
+      "Trắng Ngọc Trai",
+      "Đen Ánh Kim",
+      "Xám Kim Loại",
+      "Bạc"
+    ],
     "thumbnail": "/storage/cars/limo-green/Limo-Green.png",
     "images": [
       "/storage/cars/limo-green/Limo-Green.png",
@@ -385,7 +407,11 @@
       "charging": "Khoảng 5 giờ",
       "drive": "RWD"
     },
-    "colors": ["Trắng", "Bạc", "Xám"],
+    "colors": [
+      "Trắng",
+      "Bạc",
+      "Xám"
+    ],
     "thumbnail": "/storage/cars/ec-van/1-23.jpg",
     "images": [
       "/storage/cars/ec-van/1-23.jpg",

@@ -51,8 +51,12 @@
 website_vinfast/
 ├── backend/
 │   ├── src/
+│   │   ├── middleware/
+│   │   │   └── auth.js           # JWT verify middleware (requireAdmin)
 │   │   ├── routes/
-│   │   │   ├── cars.js           # CRUD xe
+│   │   │   ├── admin.js          # POST /api/admin/login → trả JWT
+│   │   │   ├── upload.js         # POST /api/upload → lưu ảnh xe (auth)
+│   │   │   ├── cars.js           # CRUD xe (PUT/DELETE yêu cầu auth)
 │   │   │   ├── banners.js        # banner
 │   │   │   ├── consultations.js  # form tư vấn + gửi Telegram
 │   │   │   ├── settings.js       # thông tin liên hệ
@@ -72,6 +76,9 @@ website_vinfast/
 │   ├── package.json
 │   └── Dockerfile
 ├── frontend/
+│   ├── admin/
+│   │   ├── index.html            # dashboard quản lý xe (auth required)
+│   │   └── login.html            # trang đăng nhập admin
 │   ├── index.html                # trang chủ (banner + xe nổi bật)
 │   ├── cars.html                 # danh sách + tìm kiếm xe
 │   ├── car-detail.html           # chi tiết xe
@@ -200,16 +207,21 @@ website_vinfast/
 
 ## 4. API Endpoints
 
-| Method | Endpoint | Mô tả | Rate limit |
-|--------|----------|-------|------------|
-| `GET` | `/api/cars` | Danh sách xe (filter: `type`, `minPrice`, `maxPrice`, `search`) | — |
-| `GET` | `/api/cars/:id` | Chi tiết 1 xe | — |
-| `GET` | `/api/banners` | Danh sách banner | — |
-| `GET` | `/api/settings` | Thông tin liên hệ | — |
-| `POST` | `/api/consultations` | Gửi form tư vấn → lưu JSON + gửi Telegram | 5 req/phút/IP |
-| `POST` | `/api/track` | Ghi nhận lượt truy cập | 30 req/phút/IP |
-| `GET` | `/api/stats` | Thống kê lượt truy cập tổng hợp | — |
-| `POST` | `/api/telegram/webhook` | Nhận lệnh từ Telegram Bot | — |
+| Method | Endpoint | Mô tả | Auth | Rate limit |
+|--------|----------|-------|------|------------|
+| `POST` | `/api/admin/login` | Đăng nhập admin → trả JWT (8h) | — | 10 req/phút/IP |
+| `GET` | `/api/cars` | Danh sách xe (filter: `type`, `minPrice`, `maxPrice`, `search`) | — | — |
+| `GET` | `/api/cars/:id` | Chi tiết 1 xe | — | — |
+| `POST` | `/api/cars` | Thêm xe mới | JWT | — |
+| `PUT` | `/api/cars/:id` | Cập nhật xe | JWT | — |
+| `DELETE` | `/api/cars/:id` | Xóa xe | JWT | — |
+| `POST` | `/api/upload` | Upload ảnh xe → lưu vào `storage/cars/<id>/` | JWT | — |
+| `GET` | `/api/banners` | Danh sách banner | — | — |
+| `GET` | `/api/settings` | Thông tin liên hệ | — | — |
+| `POST` | `/api/consultations` | Gửi form tư vấn → lưu JSON + gửi Telegram | — | 5 req/phút/IP |
+| `POST` | `/api/track` | Ghi nhận lượt truy cập | — | 30 req/phút/IP |
+| `GET` | `/api/stats` | Thống kê lượt truy cập tổng hợp | — | — |
+| `POST` | `/api/telegram/webhook` | Nhận lệnh từ Telegram Bot | — | — |
 
 ---
 
@@ -265,7 +277,32 @@ Chỉ phản hồi đúng `TELEGRAM_CHAT_ID` được cấu hình trong `.env`.
 
 ---
 
-## 6. Luồng xử lý — Form Tư Vấn
+## 6. Xác thực Admin (JWT)
+
+Admin đăng nhập qua `POST /api/admin/login`. Backend verify credentials từ env vars (`ADMIN_USERNAME`, `ADMIN_PASSWORD`) và trả về JWT token có hiệu lực **8 giờ**.
+
+```
+POST /api/admin/login
+  { username, password }
+        │
+        ▼
+  Verify vs ADMIN_USERNAME / ADMIN_PASSWORD (env)
+        │
+        ├─► Sai → 401 { error }
+        │
+        └─► Đúng → 200 { token: "eyJ..." }
+```
+
+Frontend lưu token vào `localStorage`. Mọi request có auth kèm header:
+```
+Authorization: Bearer <token>
+```
+
+Middleware `requireAdmin` (auth.js) verify JWT bằng `JWT_SECRET`. Token hết hạn → 401, frontend redirect về `/admin/login.html`.
+
+---
+
+## 7. Luồng xử lý — Form Tư Vấn
 
 ```
 User điền form
@@ -283,7 +320,7 @@ POST /api/consultations  ←── rate limit: 5 req/phút/IP
 
 ---
 
-## 7. Luồng xử lý — Visitor Tracking
+## 8. Luồng xử lý — Visitor Tracking
 
 ```
 Browser load trang
@@ -302,7 +339,7 @@ Backend (track.js):
 
 ---
 
-## 8. Nginx — Cấu hình quan trọng
+## 9. Nginx — Cấu hình quan trọng
 
 ```nginx
 # JS/CSS không bị cache cứng — trình duyệt luôn kiểm tra phiên bản mới
@@ -321,7 +358,7 @@ location /storage/ {
 
 ---
 
-## 9. SEO
+## 10. SEO
 
 | File | Mô tả |
 |------|-------|
@@ -334,17 +371,19 @@ Mỗi trang HTML có đầy đủ: `<title>`, `<meta description>`, `<meta keywo
 
 ---
 
-## 10. UI Pages
+## 11. UI Pages
 
 | Trang | Nội dung |
 |-------|----------|
 | **Trang chủ** (`/`) | Banner carousel tự động (không dừng khi hover), section xe nổi bật, footer |
 | **Danh sách xe** (`/cars.html`) | Bộ lọc (loại xe, khoảng giá, tìm kiếm tên), grid 11 xe |
 | **Chi tiết xe** (`/car-detail.html?id=...`) | Gallery ảnh, 12 trường thông số kỹ thuật, màu sắc, form tư vấn |
+| **Đăng nhập admin** (`/admin/login.html`) | Form username/password, `noindex` — không hiện trên Google |
+| **Dashboard admin** (`/admin/`) | Quản lý xe (thêm/sửa/xóa/upload ảnh), yêu cầu JWT hợp lệ |
 
 ---
 
-## 11. Docker Setup
+## 12. Docker Setup
 
 ```yaml
 services:
@@ -357,6 +396,9 @@ services:
       - NODE_ENV=production
       - TELEGRAM_BOT_TOKEN
       - TELEGRAM_CHAT_ID
+      - ADMIN_USERNAME        # từ .env
+      - ADMIN_PASSWORD        # từ .env
+      - JWT_SECRET            # từ .env
 
   nginx:
     image: nginx:alpine
@@ -371,14 +413,21 @@ services:
       - backend
 ```
 
+> **Quan trọng:** Sau khi thêm hoặc sửa file trong `backend/src/`, phải rebuild image:
+> ```bash
+> docker compose up -d --build backend
+> ```
+> Nginx tự nhận file frontend mới ngay (volume mount), không cần rebuild.
+
 ---
 
-## 12. Công nghệ sử dụng
+## 13. Công nghệ sử dụng
 
 | Layer | Công nghệ | Lý do |
 |-------|-----------|-------|
 | Frontend | HTML5 + CSS3 + Vanilla JS | Nhẹ, không cần build, dễ triển khai |
 | Backend | Node.js + Express | Nhanh, xử lý JSON tốt |
+| Auth | JWT (`jsonwebtoken`) | Stateless, không cần session/DB |
 | Database | JSON files | Đơn giản, không cần cài DB |
 | Image store | Thư mục `/storage` | Mount volume trong Docker |
 | Notification | Telegram Bot API | Miễn phí, real-time |
@@ -389,11 +438,15 @@ services:
 
 ---
 
-## 13. Các bước triển khai
+## 14. Các bước triển khai
 
 1. Đặt ảnh xe vào `storage/cars/<id>/`, ảnh banner vào `storage/banners/`
 2. Điền dữ liệu xe vào `backend/data/cars.json`
-3. Tạo file `.env`, điền `TELEGRAM_BOT_TOKEN` và `TELEGRAM_CHAT_ID`
+3. Tạo file `.env` từ template:
+   ```bash
+   cp .env.example .env
+   # Điền TELEGRAM_BOT_TOKEN, TELEGRAM_CHAT_ID, ADMIN_PASSWORD, JWT_SECRET
+   ```
 4. Cập nhật thông tin tư vấn viên vào `backend/data/settings.json`
 5. Build và chạy Docker:
    ```bash
@@ -405,3 +458,4 @@ services:
    ```
 7. Submit sitemap tại Google Search Console
 8. Truy cập `https://vinfastmanhhien.click` để kiểm tra
+9. Đăng nhập admin tại `https://vinfastmanhhien.click/admin/login.html`

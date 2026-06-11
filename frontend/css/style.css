@@ -296,6 +296,24 @@ h1, h2, h3, h4, h5, h6 {
   font-weight: 700;
 }
 
+.nav-admin-btn {
+  padding: 0.35rem 0.85rem;
+  background: rgba(255,255,255,0.12);
+  color: rgba(255,255,255,0.75);
+  font-size: 0.82rem;
+  font-weight: 500;
+  border-radius: var(--radius-sm);
+  border: 1px solid rgba(255,255,255,0.2);
+  white-space: nowrap;
+  transition: background var(--transition-fast), color var(--transition-fast);
+  margin-left: 0.25rem;
+}
+
+.nav-admin-btn:hover {
+  background: rgba(255,255,255,0.22);
+  color: var(--color-white);
+}
+
 .header-domain {
   padding: 0.4rem 0.9rem;
   background: var(--color-cta);

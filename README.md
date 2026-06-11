@@ -17,10 +17,19 @@ Website giới thiệu xe điện VinFast chính hãng, xây dựng bằng HTML/
 ```
 website_vinfast/
 ├── frontend/          # Giao diện (HTML, CSS, JS)
+│   ├── admin/         # Trang quản trị admin
+│   │   ├── index.html # Dashboard quản lý xe
+│   │   └── login.html # Trang đăng nhập admin
 │   ├── robots.txt
 │   └── sitemap.xml
 ├── backend/           # API Node.js + Express
 │   ├── src/
+│   │   ├── middleware/
+│   │   │   └── auth.js        # JWT middleware
+│   │   └── routes/
+│   │       ├── admin.js       # API đăng nhập
+│   │       ├── upload.js      # API upload ảnh
+│   │       └── ...
 │   └── data/          # Dữ liệu JSON (xe, banner, đơn tư vấn...)
 ├── storage/           # Ảnh xe và banner
 │   ├── banners/
@@ -91,11 +100,20 @@ Truy cập: **https://vinfastmanhhien.click**
 
 ## Cấu hình biến môi trường
 
-Telegram Bot Token và Chat ID được cấu hình qua file `.env` ở thư mục gốc:
+Tạo file `.env` từ template:
+
+```bash
+cp .env.example .env
+```
+
+Sau đó điền giá trị thật vào `.env`:
 
 ```env
 TELEGRAM_BOT_TOKEN=token_bot_của_bạn
 TELEGRAM_CHAT_ID=chat_id_của_bạn
+ADMIN_USERNAME=admin
+ADMIN_PASSWORD=admin123
+JWT_SECRET=vinfastmanhhien_secret_key
 ```
 
 > **Lưu ý bảo mật:** File `.env` đã được thêm vào `.gitignore` — không bao giờ commit file này lên git.
@@ -127,6 +145,25 @@ Thông tin liên hệ được cấu hình tại `backend/data/settings.json`:
 ```
 
 > Sau khi sửa `settings.json`, không cần restart — backend đọc file mỗi lần có request.
+
+---
+
+## Trang quản trị Admin
+
+Truy cập trang admin qua link **Đăng nhập** ở chân trang web, hoặc trực tiếp:
+
+```
+https://vinfastmanhhien.click/admin/login.html
+```
+
+Đăng nhập bằng tài khoản cấu hình trong `.env` (`ADMIN_USERNAME` / `ADMIN_PASSWORD`).
+
+Sau khi đăng nhập, dashboard cho phép:
+- Thêm / sửa / xóa xe
+- Upload ảnh xe trực tiếp từ trình duyệt
+- Đặt xe nổi bật
+
+Token đăng nhập có hiệu lực **8 giờ**, lưu trong `localStorage` của trình duyệt — mỗi máy/trình duyệt cần đăng nhập riêng.
 
 ---
 
@@ -206,16 +243,20 @@ Chỉnh sửa file `backend/data/banners.json`:
 
 ## API Endpoints
 
-| Method | Endpoint | Mô tả |
-|--------|----------|-------|
-| GET | `/api/cars` | Danh sách xe |
-| GET | `/api/cars/:id` | Chi tiết xe |
-| GET | `/api/banners` | Danh sách banner |
-| GET | `/api/settings` | Thông tin liên hệ |
-| POST | `/api/consultations` | Gửi form tư vấn |
-| POST | `/api/track` | Ghi nhận lượt truy cập |
-| GET | `/api/stats` | Thống kê lượt truy cập |
-| POST | `/api/telegram/webhook` | Nhận lệnh từ Telegram Bot |
+| Method | Endpoint | Mô tả | Auth |
+|--------|----------|-------|------|
+| GET | `/api/cars` | Danh sách xe | — |
+| GET | `/api/cars/:id` | Chi tiết xe | — |
+| GET | `/api/banners` | Danh sách banner | — |
+| GET | `/api/settings` | Thông tin liên hệ | — |
+| POST | `/api/consultations` | Gửi form tư vấn | — |
+| POST | `/api/track` | Ghi nhận lượt truy cập | — |
+| GET | `/api/stats` | Thống kê lượt truy cập | — |
+| POST | `/api/telegram/webhook` | Nhận lệnh từ Telegram Bot | — |
+| POST | `/api/admin/login` | Đăng nhập admin, trả về JWT | — |
+| POST | `/api/upload` | Upload ảnh xe | JWT |
+| PUT | `/api/cars/:id` | Cập nhật xe | JWT |
+| DELETE | `/api/cars/:id` | Xóa xe | JWT |
 
 ---
 
@@ -261,7 +302,8 @@ curl "https://api.telegram.org/bot<TOKEN>/setWebhook?url=https://vinfastmanhhien
 | Trang trắng | `docker logs vinfast-nginx` |
 | API lỗi 502 | `docker compose restart nginx` |
 | API lỗi 500 | `docker logs vinfast-backend` |
-| API lỗi 429 | Rate limit: 5 req/phút (`/api/consultations`), 30 req/phút (`/api/track`) |
+| API lỗi 401 | Token hết hạn hoặc chưa đăng nhập — vào lại `/admin/login.html` |
+| API lỗi 429 | Rate limit: 5 req/phút (`/api/consultations`), 30 req/phút (`/api/track`), 10 req/phút (`/api/admin`) |
 | JS/CSS không cập nhật | Ctrl+Shift+R (nginx đã cấu hình `no-cache` cho JS/CSS) |
 | Ảnh không hiện | Kiểm tra đường dẫn trong JSON khớp với file trong `storage/` |
 | Bot Telegram không phản hồi | Kiểm tra `TELEGRAM_BOT_TOKEN`, `TELEGRAM_CHAT_ID` và webhook đã đăng ký chưa |
