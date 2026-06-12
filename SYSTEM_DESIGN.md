@@ -54,7 +54,7 @@ website_vinfast/
 │   │   ├── middleware/
 │   │   │   └── auth.js           # JWT verify middleware (requireAdmin)
 │   │   ├── routes/
-│   │   │   ├── admin.js          # POST /api/admin/login → trả JWT
+│   │   │   ├── admin.js          # auth, stats, visits, sessions, consultations (JWT)
 │   │   │   ├── upload.js         # POST /api/upload → lưu ảnh xe (auth)
 │   │   │   ├── cars.js           # CRUD xe (PUT/DELETE yêu cầu auth)
 │   │   │   ├── banners.js        # banner
@@ -108,7 +108,7 @@ website_vinfast/
 │   │   └── ec-van/
 │   └── logos/
 ├── nginx/
-│   └── nginx-http-only.conf      # no-cache cho JS/CSS
+│   └── nginx-http-only.conf      # no-cache cho JS/CSS; HTML: no-store (app.js)
 └── docker-compose.yml
 ```
 
@@ -209,7 +209,12 @@ website_vinfast/
 
 | Method | Endpoint | Mô tả | Auth | Rate limit |
 |--------|----------|-------|------|------------|
-| `POST` | `/api/admin/login` | Đăng nhập admin → trả JWT (8h) | — | 10 req/phút/IP |
+| `POST` | `/api/admin/login` | Đăng nhập admin → trả JWT (8h) | — | 200 req/phút/IP |
+| `GET` | `/api/admin/stats` | Thống kê theo kỳ (`period`, `value`) — trả tổng + breakdown 3 cột | JWT | 200 req/phút/IP |
+| `GET` | `/api/admin/stats/detail` | Chi tiết lượt/phiên/tư vấn trong 1 ngày, phân trang 20 hàng | JWT | 200 req/phút/IP |
+| `GET` | `/api/admin/visits` | Danh sách lượt truy cập, filter theo kỳ, phân trang | JWT | 200 req/phút/IP |
+| `GET` | `/api/admin/sessions` | Danh sách phiên (group theo sessionId), filter + phân trang | JWT | 200 req/phút/IP |
+| `GET` | `/api/admin/consultations` | Danh sách đơn tư vấn, filter theo kỳ, phân trang | JWT | 200 req/phút/IP |
 | `GET` | `/api/cars` | Danh sách xe (filter: `type`, `minPrice`, `maxPrice`, `search`) | — | — |
 | `GET` | `/api/cars/:id` | Chi tiết 1 xe | — | — |
 | `POST` | `/api/cars` | Thêm xe mới | JWT | — |
@@ -379,7 +384,7 @@ Mỗi trang HTML có đầy đủ: `<title>`, `<meta description>`, `<meta keywo
 | **Danh sách xe** (`/cars.html`) | Bộ lọc (loại xe, khoảng giá, tìm kiếm tên), grid 11 xe |
 | **Chi tiết xe** (`/car-detail.html?id=...`) | Gallery ảnh, 12 trường thông số kỹ thuật, màu sắc, form tư vấn |
 | **Đăng nhập admin** (`/admin/login.html`) | Form username/password, `noindex` — không hiện trên Google |
-| **Dashboard admin** (`/admin/`) | Quản lý xe (thêm/sửa/xóa/upload ảnh), yêu cầu JWT hợp lệ |
+| **Dashboard admin** (`/admin/`) | Quản lý xe (thêm/sửa/xóa/upload ảnh); thống kê theo ngày/tháng/quý/năm với phân trang; tab Truy cập / Phiên / Tư vấn có bộ lọc kỳ và phân trang 20 hàng/trang |
 
 ---
 

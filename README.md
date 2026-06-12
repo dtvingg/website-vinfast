@@ -162,6 +162,10 @@ Sau khi đăng nhập, dashboard cho phép:
 - Thêm / sửa / xóa xe
 - Upload ảnh xe trực tiếp từ trình duyệt
 - Đặt xe nổi bật
+- **Thống kê** theo ngày / tháng / quý / năm:
+  - View **Ngày**: 3 nút chi tiết (Lượt truy cập / Phiên / Đơn tư vấn), phân trang 20 hàng/trang
+  - View **Tháng / Quý / Năm**: bảng tổng hợp số lượng truy cập, phiên, đơn tư vấn theo từng kỳ
+- **Tab Truy cập / Phiên / Tư vấn**: bộ lọc theo ngày/tháng/quý/năm, phân trang 20 hàng/trang
 
 Token đăng nhập có hiệu lực **8 giờ**, lưu trong `localStorage` của trình duyệt — mỗi máy/trình duyệt cần đăng nhập riêng.
 
@@ -254,6 +258,11 @@ Chỉnh sửa file `backend/data/banners.json`:
 | GET | `/api/stats` | Thống kê lượt truy cập | — |
 | POST | `/api/telegram/webhook` | Nhận lệnh từ Telegram Bot | — |
 | POST | `/api/admin/login` | Đăng nhập admin, trả về JWT | — |
+| GET | `/api/admin/stats` | Thống kê theo kỳ (ngày/tháng/quý/năm) | JWT |
+| GET | `/api/admin/stats/detail` | Chi tiết phân trang theo ngày | JWT |
+| GET | `/api/admin/visits` | Danh sách lượt truy cập (filter + phân trang) | JWT |
+| GET | `/api/admin/sessions` | Danh sách phiên (filter + phân trang) | JWT |
+| GET | `/api/admin/consultations` | Danh sách đơn tư vấn (filter + phân trang) | JWT |
 | POST | `/api/upload` | Upload ảnh xe | JWT |
 | PUT | `/api/cars/:id` | Cập nhật xe | JWT |
 | DELETE | `/api/cars/:id` | Xóa xe | JWT |
@@ -303,7 +312,7 @@ curl "https://api.telegram.org/bot<TOKEN>/setWebhook?url=https://vinfastmanhhien
 | API lỗi 502 | `docker compose restart nginx` |
 | API lỗi 500 | `docker logs vinfast-backend` |
 | API lỗi 401 | Token hết hạn hoặc chưa đăng nhập — vào lại `/admin/login.html` |
-| API lỗi 429 | Rate limit: 5 req/phút (`/api/consultations`), 30 req/phút (`/api/track`), 10 req/phút (`/api/admin`) |
+| API lỗi 429 | Rate limit: 5 req/phút (`/api/consultations`), 30 req/phút (`/api/track`), 200 req/phút (`/api/admin`) |
 | JS/CSS không cập nhật | Ctrl+Shift+R (nginx đã cấu hình `no-cache` cho JS/CSS) |
 | Ảnh không hiện | Kiểm tra đường dẫn trong JSON khớp với file trong `storage/` |
 | Bot Telegram không phản hồi | Kiểm tra `TELEGRAM_BOT_TOKEN`, `TELEGRAM_CHAT_ID` và webhook đã đăng ký chưa |
