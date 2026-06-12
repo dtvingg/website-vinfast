@@ -39,9 +39,15 @@ app.use(express.json({ limit: '10kb' }));
 const FRONTEND_DIR = path.join(__dirname, '../..', 'frontend');
 const STORAGE_DIR  = path.join(__dirname, '../..', 'storage');
 app.use('/storage', express.static(STORAGE_DIR));
-app.use(express.static(FRONTEND_DIR));
+app.use(express.static(FRONTEND_DIR, {
+  setHeaders(res, filePath) {
+    if (filePath.endsWith('.html')) {
+      res.setHeader('Cache-Control', 'no-store, no-cache, must-revalidate');
+    }
+  }
+}));
 
-app.use('/api/admin', rateLimit(10, 60_000), require('./routes/admin'));
+app.use('/api/admin', rateLimit(200, 60_000), require('./routes/admin'));
 app.use('/api/upload', require('./routes/upload'));
 app.use('/api/cars', require('./routes/cars'));
 app.use('/api/banners', require('./routes/banners'));

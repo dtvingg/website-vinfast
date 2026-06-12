@@ -368,6 +368,171 @@
     .featured-check { display: flex; align-items: center; gap: 8px; }
     .featured-check input[type=checkbox] { width: 16px; height: 16px; }
 
+    /* Tabs */
+    .tab-nav {
+      display: flex;
+      gap: 2px;
+      margin-bottom: 22px;
+      border-bottom: 2px solid #e0e7f0;
+    }
+    .tab-btn {
+      background: none;
+      border: none;
+      padding: 10px 22px;
+      font-size: 14px;
+      font-weight: 600;
+      color: #888;
+      cursor: pointer;
+      border-bottom: 3px solid transparent;
+      margin-bottom: -2px;
+      transition: color 0.15s, border-color 0.15s;
+      border-radius: 0;
+    }
+    .tab-btn:hover { color: #004a9f; }
+    .tab-btn.active { color: #002147; border-bottom-color: #002147; }
+    .tab-pane { display: none; }
+    .tab-pane.active { display: block; }
+
+    /* Stat cards */
+    .stat-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+      gap: 16px;
+      margin-bottom: 28px;
+    }
+    .stat-card {
+      background: #fff;
+      border-radius: 12px;
+      padding: 20px 24px;
+      box-shadow: 0 2px 12px rgba(0,0,0,0.06);
+    }
+    .stat-card-label {
+      font-size: 11px;
+      font-weight: 700;
+      color: #94a3b8;
+      text-transform: uppercase;
+      letter-spacing: 0.06em;
+      margin-bottom: 8px;
+    }
+    .stat-card-value {
+      font-size: 36px;
+      font-weight: 800;
+      color: #002147;
+      line-height: 1;
+      margin-bottom: 6px;
+    }
+    .stat-card-sub { font-size: 12px; color: #aaa; }
+    .stat-2col {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 20px;
+      margin-bottom: 24px;
+    }
+    .stat-section-title {
+      font-size: 15px;
+      font-weight: 700;
+      color: #002147;
+      margin-bottom: 12px;
+    }
+
+    /* Consultation badges */
+    .badge-pending { background: #fef9c3; color: #a16207; }
+    .badge-done    { background: #dcfce7; color: #16a34a; }
+
+    /* Scrollable tables */
+    .table-scroll { overflow-x: auto; }
+
+    /* Pagination */
+    .pagination {
+      display: flex;
+      align-items: center;
+      gap: 14px;
+      justify-content: center;
+      padding: 14px 0 4px;
+    }
+    .pagination button {
+      background: #f0f4fa;
+      border: none;
+      border-radius: 6px;
+      padding: 7px 18px;
+      font-size: 13px;
+      font-weight: 600;
+      cursor: pointer;
+      color: #002147;
+      transition: background 0.15s;
+    }
+    .pagination button:hover:not(:disabled) { background: #dce6f5; }
+    .pagination button:disabled { opacity: 0.35; cursor: not-allowed; }
+    .pagination span { font-size: 13px; color: #666; }
+
+    /* Period filter */
+    .period-bar {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      flex-wrap: wrap;
+      margin-bottom: 20px;
+      background: #fff;
+      padding: 14px 18px;
+      border-radius: 10px;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.05);
+    }
+    .period-tab {
+      background: #f3f4f6;
+      border: none;
+      border-radius: 6px;
+      padding: 7px 16px;
+      font-size: 13px;
+      font-weight: 600;
+      cursor: pointer;
+      color: #555;
+      transition: background 0.15s, color 0.15s;
+    }
+    .period-tab.active { background: #002147; color: #fff; }
+    .period-tab:hover:not(.active) { background: #e0e7f0; color: #002147; }
+    .period-input {
+      padding: 7px 12px;
+      border: 1.5px solid #ddd;
+      border-radius: 6px;
+      font-size: 13px;
+      font-family: inherit;
+      outline: none;
+    }
+    .period-input:focus { border-color: #004a9f; }
+    .btn-period-view {
+      background: #002147;
+      color: #fff;
+      border: none;
+      border-radius: 6px;
+      padding: 7px 20px;
+      font-size: 13px;
+      font-weight: 700;
+      cursor: pointer;
+      transition: background 0.15s;
+    }
+    .btn-period-view:hover { background: #004a9f; }
+
+    /* Detail type bar (day period) */
+    .detail-type-bar {
+      display: flex;
+      gap: 8px;
+      margin-bottom: 16px;
+      flex-wrap: wrap;
+    }
+    .detail-type-btn {
+      background: #f3f4f6;
+      border: none;
+      border-radius: 6px;
+      padding: 8px 20px;
+      font-size: 13px;
+      font-weight: 600;
+      cursor: pointer;
+      color: #555;
+      transition: background 0.15s, color 0.15s;
+    }
+    .detail-type-btn.active { background: #002147; color: #fff; }
+    .detail-type-btn:hover:not(.active) { background: #e0e7f0; color: #002147; }
+
     @media (max-width: 640px) {
       .form-row { flex-direction: column; gap: 0; }
       th:nth-child(2), td:nth-child(2) { display: none; }
@@ -389,27 +554,189 @@
   </header>
 
   <main class="main">
-    <div class="page-title">Quản lý sản phẩm xe</div>
-    <div class="toolbar">
-      <input type="text" class="search-input" id="searchInput" placeholder="Tìm kiếm xe..." oninput="renderTable()" />
-      <button class="btn-add" onclick="openAddModal()">+ Thêm xe mới</button>
+    <nav class="tab-nav">
+      <button class="tab-btn active" data-tab="cars"          onclick="switchTab('cars')">Sản phẩm</button>
+      <button class="tab-btn"        data-tab="stats"         onclick="switchTab('stats')">Thống kê</button>
+      <button class="tab-btn"        data-tab="visits"        onclick="switchTab('visits')">Truy cập</button>
+      <button class="tab-btn"        data-tab="sessions"      onclick="switchTab('sessions')">Phiên</button>
+      <button class="tab-btn"        data-tab="consultations" onclick="switchTab('consultations')">Tư vấn</button>
+    </nav>
+
+    <!-- Tab: Sản phẩm -->
+    <div id="tab-cars" class="tab-pane active">
+      <div class="page-title">Quản lý sản phẩm xe</div>
+      <div class="toolbar">
+        <input type="text" class="search-input" id="searchInput" placeholder="Tìm kiếm xe..." oninput="renderTable()" />
+        <button class="btn-add" onclick="openAddModal()">+ Thêm xe mới</button>
+      </div>
+      <div class="table-wrap">
+        <table>
+          <thead>
+            <tr>
+              <th>Ảnh</th>
+              <th>Tên xe / ID</th>
+              <th>Giá từ</th>
+              <th>Giá đến</th>
+              <th>Nổi bật</th>
+              <th>Thao tác</th>
+            </tr>
+          </thead>
+          <tbody id="tableBody">
+            <tr><td colspan="6" class="empty-state">Đang tải...</td></tr>
+          </tbody>
+        </table>
+      </div>
     </div>
-    <div class="table-wrap">
-      <table>
-        <thead>
-          <tr>
-            <th>Ảnh</th>
-            <th>Tên xe / ID</th>
-            <th>Giá từ</th>
-            <th>Giá đến</th>
-            <th>Nổi bật</th>
-            <th>Thao tác</th>
-          </tr>
-        </thead>
-        <tbody id="tableBody">
-          <tr><td colspan="6" class="empty-state">Đang tải...</td></tr>
-        </tbody>
-      </table>
+
+    <!-- Tab: Thống kê -->
+    <div id="tab-stats" class="tab-pane">
+      <div class="page-title">Thống kê</div>
+      <div class="period-bar" id="statsPeriodBar">
+        <button class="period-tab" data-period="day"     onclick="setPeriod('day')">Ngày</button>
+        <button class="period-tab active" data-period="month"   onclick="setPeriod('month')">Tháng</button>
+        <button class="period-tab" data-period="quarter" onclick="setPeriod('quarter')">Quý</button>
+        <button class="period-tab" data-period="year"    onclick="setPeriod('year')">Năm</button>
+        <div id="periodInputWrap"></div>
+        <button class="btn-period-view" onclick="loadPeriodStats()">Xem</button>
+      </div>
+      <div class="stat-grid">
+        <div class="stat-card">
+          <div class="stat-card-label">Lượt truy cập</div>
+          <div class="stat-card-value" id="pVisits">–</div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-card-label">Phiên duy nhất</div>
+          <div class="stat-card-value" id="pSessions">–</div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-card-label">Đơn tư vấn</div>
+          <div class="stat-card-value" id="pConsultations">–</div>
+        </div>
+      </div>
+
+      <!-- Chi tiết ngày: 3 nút + bảng phân trang -->
+      <div id="dayDetailSection" style="display:none;">
+        <div class="stat-section-title">Chi tiết theo ngày</div>
+        <div class="detail-type-bar">
+          <button class="detail-type-btn active" data-type="visits"        onclick="setDetailType('visits')">Lượt truy cập</button>
+          <button class="detail-type-btn"        data-type="sessions"      onclick="setDetailType('sessions')">Phiên</button>
+          <button class="detail-type-btn"        data-type="consultations" onclick="setDetailType('consultations')">Đơn tư vấn</button>
+        </div>
+        <div id="dayDetailTableWrap" class="table-wrap table-scroll"></div>
+        <div id="dayDetailPagination"></div>
+      </div>
+
+      <!-- Bảng tổng hợp: tháng / quý / năm -->
+      <div id="breakdownSection">
+        <div class="stat-section-title" id="breakdownTitle">Chi tiết</div>
+        <div class="table-wrap table-scroll">
+          <table>
+            <thead>
+              <tr>
+                <th id="breakdownColA">Kỳ</th>
+                <th>Lượt truy cập</th>
+                <th>Phiên</th>
+                <th>Đơn tư vấn</th>
+              </tr>
+            </thead>
+            <tbody id="breakdownBody">
+              <tr><td colspan="4" class="empty-state">Đang tải...</td></tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+
+    <!-- Tab: Truy cập chi tiết -->
+    <div id="tab-visits" class="tab-pane">
+      <div class="page-title">Chi tiết lượt truy cập</div>
+      <div class="period-bar" id="visitsPeriodBar">
+        <button class="period-tab" data-period="day"     onclick="setTabPeriod('visits','day')">Ngày</button>
+        <button class="period-tab active" data-period="month"   onclick="setTabPeriod('visits','month')">Tháng</button>
+        <button class="period-tab" data-period="quarter" onclick="setTabPeriod('visits','quarter')">Quý</button>
+        <button class="period-tab" data-period="year"    onclick="setTabPeriod('visits','year')">Năm</button>
+        <div id="visitsPeriodInputWrap"></div>
+        <button class="btn-period-view" onclick="loadVisitsPage(1)">Xem</button>
+      </div>
+      <div class="table-wrap table-scroll">
+        <table>
+          <thead>
+            <tr>
+              <th>Thời gian</th>
+              <th>Trang</th>
+              <th>IP</th>
+              <th>Nguồn</th>
+              <th>Thiết bị</th>
+            </tr>
+          </thead>
+          <tbody id="visitsBody">
+            <tr><td colspan="5" class="empty-state">Đang tải...</td></tr>
+          </tbody>
+        </table>
+      </div>
+      <div id="visitsPagination"></div>
+    </div>
+
+    <!-- Tab: Phiên -->
+    <div id="tab-sessions" class="tab-pane">
+      <div class="page-title">Chi tiết phiên</div>
+      <div class="period-bar" id="sessionsPeriodBar">
+        <button class="period-tab" data-period="day"     onclick="setTabPeriod('sessions','day')">Ngày</button>
+        <button class="period-tab active" data-period="month"   onclick="setTabPeriod('sessions','month')">Tháng</button>
+        <button class="period-tab" data-period="quarter" onclick="setTabPeriod('sessions','quarter')">Quý</button>
+        <button class="period-tab" data-period="year"    onclick="setTabPeriod('sessions','year')">Năm</button>
+        <div id="sessionsPeriodInputWrap"></div>
+        <button class="btn-period-view" onclick="loadSessionsPage(1)">Xem</button>
+      </div>
+      <div class="table-wrap table-scroll">
+        <table>
+          <thead>
+            <tr>
+              <th>Session ID</th>
+              <th>Trang đã xem</th>
+              <th style="text-align:center;">Số trang</th>
+              <th>Bắt đầu</th>
+              <th>Kết thúc</th>
+              <th>IP</th>
+            </tr>
+          </thead>
+          <tbody id="sessionsBody">
+            <tr><td colspan="6" class="empty-state">Đang tải...</td></tr>
+          </tbody>
+        </table>
+      </div>
+      <div id="sessionsPagination"></div>
+    </div>
+
+    <!-- Tab: Tư vấn -->
+    <div id="tab-consultations" class="tab-pane">
+      <div class="page-title">Đơn tư vấn nhận được</div>
+      <div class="period-bar" id="consultationsPeriodBar">
+        <button class="period-tab" data-period="day"     onclick="setTabPeriod('consultations','day')">Ngày</button>
+        <button class="period-tab active" data-period="month"   onclick="setTabPeriod('consultations','month')">Tháng</button>
+        <button class="period-tab" data-period="quarter" onclick="setTabPeriod('consultations','quarter')">Quý</button>
+        <button class="period-tab" data-period="year"    onclick="setTabPeriod('consultations','year')">Năm</button>
+        <div id="consultationsPeriodInputWrap"></div>
+        <button class="btn-period-view" onclick="loadConsultationsPage(1)">Xem</button>
+      </div>
+      <div class="table-wrap table-scroll">
+        <table>
+          <thead>
+            <tr>
+              <th>Thời gian</th>
+              <th>Khách hàng</th>
+              <th>SĐT</th>
+              <th>Xe quan tâm</th>
+              <th>Địa chỉ</th>
+              <th>Ghi chú</th>
+            </tr>
+          </thead>
+          <tbody id="consultationsBody">
+            <tr><td colspan="6" class="empty-state">Đang tải...</td></tr>
+          </tbody>
+        </table>
+      </div>
+      <div id="consultPagination"></div>
     </div>
   </main>
 
@@ -576,6 +903,349 @@
     function formatPrice(n) {
       if (!n) return '-';
       return Number(n).toLocaleString('vi-VN') + ' đ';
+    }
+
+    // ─── Tab switching ───────────────────────────────────────────────
+
+    let statsLoaded = false;
+    let currentDetailType = 'visits';
+    let currentDetailPage = 1;
+    const DETAIL_PAGE_SIZE = 20;
+
+    // Per-tab period state
+    const tabState = {
+      visits:        { period: 'month', value: '', inited: false },
+      sessions:      { period: 'month', value: '', inited: false },
+      consultations: { period: 'month', value: '', inited: false },
+    };
+
+    function switchTab(name) {
+      document.querySelectorAll('.tab-btn').forEach(b =>
+        b.classList.toggle('active', b.dataset.tab === name)
+      );
+      document.querySelectorAll('.tab-pane').forEach(p =>
+        p.classList.toggle('active', p.id === 'tab-' + name)
+      );
+      if (name === 'stats' && !statsLoaded) loadStats();
+      if (name === 'visits'        && !tabState.visits.inited)        { tabState.visits.inited = true;        initTabPeriod('visits');        loadVisitsPage(1); }
+      if (name === 'sessions'      && !tabState.sessions.inited)      { tabState.sessions.inited = true;      initTabPeriod('sessions');      loadSessionsPage(1); }
+      if (name === 'consultations' && !tabState.consultations.inited) { tabState.consultations.inited = true;  initTabPeriod('consultations'); loadConsultationsPage(1); }
+    }
+
+    function initTabPeriod(tab) {
+      const now = new Date();
+      tabState[tab].value = now.toISOString().slice(0, 7);
+      renderTabPeriodInput(tab);
+    }
+
+    function setTabPeriod(tab, type) {
+      tabState[tab].period = type;
+      const bar = document.getElementById(tab + 'PeriodBar');
+      bar.querySelectorAll('.period-tab').forEach(b =>
+        b.classList.toggle('active', b.dataset.period === type)
+      );
+      const now = new Date();
+      if (type === 'day')     tabState[tab].value = now.toISOString().slice(0, 10);
+      else if (type === 'month')   tabState[tab].value = now.toISOString().slice(0, 7);
+      else if (type === 'quarter') tabState[tab].value = `${now.getFullYear()}-Q${Math.ceil((now.getMonth()+1)/3)}`;
+      else if (type === 'year')    tabState[tab].value = String(now.getFullYear());
+      renderTabPeriodInput(tab);
+    }
+
+    function renderTabPeriodInput(tab) {
+      const state = tabState[tab];
+      const wrap = document.getElementById(tab + 'PeriodInputWrap');
+      const now = new Date();
+      if (state.period === 'day') {
+        wrap.innerHTML = `<input class="period-input" type="date" id="${tab}PeriodVal" value="${state.value}" />`;
+      } else if (state.period === 'month') {
+        wrap.innerHTML = `<input class="period-input" type="month" id="${tab}PeriodVal" value="${state.value}" />`;
+      } else if (state.period === 'quarter') {
+        const opts = [now.getFullYear(), now.getFullYear()-1].flatMap(y =>
+          [1,2,3,4].map(i => `<option value="${y}-Q${i}" ${`${y}-Q${i}` === state.value ? 'selected' : ''}>Q${i}/${y}</option>`)
+        ).join('');
+        wrap.innerHTML = `<select class="period-input" id="${tab}PeriodVal">${opts}</select>`;
+      } else if (state.period === 'year') {
+        const opts = [0,1,2].map(i => `<option value="${now.getFullYear()-i}" ${state.value === String(now.getFullYear()-i) ? 'selected' : ''}>${now.getFullYear()-i}</option>`).join('');
+        wrap.innerHTML = `<select class="period-input" id="${tab}PeriodVal">${opts}</select>`;
+      }
+    }
+
+    function getTabPeriodParams(tab) {
+      const el = document.getElementById(tab + 'PeriodVal');
+      if (el) tabState[tab].value = el.value;
+      return tabState[tab];
+    }
+
+    function renderTabPagination(paginationId, total, page, loadFn) {
+      const totalPages = Math.ceil(total / DETAIL_PAGE_SIZE);
+      const el = document.getElementById(paginationId);
+      if (totalPages <= 1) { el.innerHTML = ''; return; }
+      el.innerHTML = `<div class="pagination">
+        <button onclick="${loadFn}(${page - 1})" ${page <= 1 ? 'disabled' : ''}>← Trước</button>
+        <span>Trang ${page} / ${totalPages} &nbsp;(${total} bản ghi)</span>
+        <button onclick="${loadFn}(${page + 1})" ${page >= totalPages ? 'disabled' : ''}>Sau →</button>
+      </div>`;
+    }
+
+    // ─── Stats ───────────────────────────────────────────────────────
+
+    let currentPeriod = 'month';
+    let currentPeriodValue = new Date().toISOString().slice(0, 7);
+
+    function setPeriod(type) {
+      currentPeriod = type;
+      document.querySelectorAll('#statsPeriodBar .period-tab').forEach(b =>
+        b.classList.toggle('active', b.dataset.period === type)
+      );
+      const now = new Date();
+      const wrap = document.getElementById('periodInputWrap');
+      if (type === 'day') {
+        currentPeriodValue = now.toISOString().slice(0, 10);
+        wrap.innerHTML = `<input class="period-input" type="date" id="periodVal" value="${currentPeriodValue}" />`;
+      } else if (type === 'month') {
+        currentPeriodValue = now.toISOString().slice(0, 7);
+        wrap.innerHTML = `<input class="period-input" type="month" id="periodVal" value="${currentPeriodValue}" />`;
+      } else if (type === 'quarter') {
+        const q = Math.ceil((now.getMonth() + 1) / 3);
+        currentPeriodValue = `${now.getFullYear()}-Q${q}`;
+        const opts = [now.getFullYear(), now.getFullYear() - 1].flatMap(y =>
+          [1,2,3,4].map(i => `<option value="${y}-Q${i}" ${`${y}-Q${i}` === currentPeriodValue ? 'selected' : ''}>Q${i}/${y}</option>`)
+        ).join('');
+        wrap.innerHTML = `<select class="period-input" id="periodVal">${opts}</select>`;
+      } else if (type === 'year') {
+        currentPeriodValue = String(now.getFullYear());
+        const opts = [0,1,2].map(i => `<option value="${now.getFullYear()-i}" ${i===0?'selected':''}>${now.getFullYear()-i}</option>`).join('');
+        wrap.innerHTML = `<select class="period-input" id="periodVal">${opts}</select>`;
+      }
+    }
+
+    async function loadPeriodStats() {
+      const valEl = document.getElementById('periodVal');
+      if (valEl) currentPeriodValue = valEl.value;
+      try {
+        const url = `/api/admin/stats?period=${currentPeriod}&value=${encodeURIComponent(currentPeriodValue)}`;
+        const res = await fetch(url, { headers: authHeaders() });
+        if (res.status === 401) { logout(); return; }
+        const data = await res.json();
+        statsLoaded = true;
+
+        document.getElementById('pVisits').textContent = data.periodVisits.toLocaleString('vi-VN');
+        document.getElementById('pSessions').textContent = data.periodSessions.toLocaleString('vi-VN');
+        document.getElementById('pConsultations').textContent = data.periodConsultations.toLocaleString('vi-VN');
+
+        if (currentPeriod === 'day') {
+          document.getElementById('dayDetailSection').style.display = '';
+          document.getElementById('breakdownSection').style.display = 'none';
+          currentDetailPage = 1;
+          loadDayDetail();
+        } else {
+          document.getElementById('dayDetailSection').style.display = 'none';
+          document.getElementById('breakdownSection').style.display = '';
+
+          const colLabels = { month: 'Ngày', quarter: 'Tháng', year: 'Tháng' };
+          document.getElementById('breakdownColA').textContent = colLabels[currentPeriod] || 'Kỳ';
+          document.getElementById('breakdownTitle').textContent = `Chi tiết – ${data.periodLabel}`;
+
+          const entries = Object.entries(data.breakdown).sort((a, b) => a[0].localeCompare(b[0]));
+          document.getElementById('breakdownBody').innerHTML = entries.length
+            ? entries.map(([k, v]) => `<tr>
+                <td>${k}</td>
+                <td><b>${v.visits}</b></td>
+                <td><b>${v.sessions}</b></td>
+                <td><b>${v.consultations}</b></td>
+              </tr>`).join('')
+            : '<tr><td colspan="4" class="empty-state">Chưa có dữ liệu</td></tr>';
+        }
+      } catch {
+        showToast('Lỗi tải thống kê', true);
+      }
+    }
+
+    function setDetailType(type) {
+      currentDetailType = type;
+      currentDetailPage = 1;
+      document.querySelectorAll('.detail-type-btn').forEach(b =>
+        b.classList.toggle('active', b.dataset.type === type)
+      );
+      loadDayDetail();
+    }
+
+    async function loadDayDetail() {
+      const wrap = document.getElementById('dayDetailTableWrap');
+      wrap.innerHTML = '<div style="padding:20px;text-align:center;color:#888;">Đang tải...</div>';
+      try {
+        const url = `/api/admin/stats/detail?date=${encodeURIComponent(currentPeriodValue)}&type=${currentDetailType}&page=${currentDetailPage}&pageSize=${DETAIL_PAGE_SIZE}`;
+        const res = await fetch(url, { headers: authHeaders() });
+        if (res.status === 401) { logout(); return; }
+        const data = await res.json();
+        renderDayDetail(data);
+        renderDayDetailPagination(data.total, data.page);
+      } catch {
+        showToast('Lỗi tải chi tiết', true);
+      }
+    }
+
+    function renderDayDetail(data) {
+      const wrap = document.getElementById('dayDetailTableWrap');
+      if (!data.data || !data.data.length) {
+        wrap.innerHTML = '<table><tbody><tr><td class="empty-state" colspan="6">Chưa có dữ liệu</td></tr></tbody></table>';
+        return;
+      }
+      if (currentDetailType === 'visits') {
+        const rows = data.data.map(v => {
+          const refText = v.referrer
+            ? `<a href="${v.referrer}" target="_blank" rel="noopener" style="color:#004a9f;">${v.referrer.length > 40 ? v.referrer.slice(0, 40) + '…' : v.referrer}</a>`
+            : '<span style="color:#aaa;">Direct</span>';
+          return `<tr>
+            <td style="white-space:nowrap;font-size:12px;">${fmtTime(v.timestamp)}</td>
+            <td style="font-size:13px;">${v.page || '/'}</td>
+            <td style="font-size:12px;white-space:nowrap;">${v.ip || '–'}</td>
+            <td style="font-size:12px;">${refText}</td>
+            <td style="font-size:11px;max-width:180px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;" title="${(v.userAgent || '').replace(/"/g, '&quot;')}">${(v.userAgent || '–').slice(0, 70)}</td>
+          </tr>`;
+        }).join('');
+        wrap.innerHTML = `<table><thead><tr><th>Thời gian</th><th>Trang</th><th>IP</th><th>Nguồn</th><th>Thiết bị</th></tr></thead><tbody>${rows}</tbody></table>`;
+      } else if (currentDetailType === 'sessions') {
+        const rows = data.data.map(s => `<tr>
+          <td style="font-size:11px;font-family:monospace;white-space:nowrap;">${(s.sessionId || '').slice(0, 14)}…</td>
+          <td style="font-size:12px;">${s.pages.join(', ')}</td>
+          <td style="text-align:center;font-weight:700;">${s.pageCount}</td>
+          <td style="white-space:nowrap;font-size:12px;">${fmtTime(s.first)}</td>
+          <td style="white-space:nowrap;font-size:12px;">${fmtTime(s.last)}</td>
+          <td style="font-size:12px;">${s.ips.join(', ') || '–'}</td>
+        </tr>`).join('');
+        wrap.innerHTML = `<table><thead><tr><th>Session ID</th><th>Trang đã xem</th><th style="text-align:center;">Số trang</th><th>Bắt đầu</th><th>Kết thúc</th><th>IP</th></tr></thead><tbody>${rows}</tbody></table>`;
+      } else if (currentDetailType === 'consultations') {
+        const rows = data.data.map(c => `<tr>
+          <td style="white-space:nowrap;font-size:12px;">${fmtTime(c.createdAt)}</td>
+          <td><b>${c.name}</b></td>
+          <td><a href="tel:${c.phone}" style="color:#004a9f;font-weight:600;">${c.phone}</a></td>
+          <td>${c.carName || '–'}</td>
+          <td style="font-size:12px;">${c.address || '–'}</td>
+          <td style="font-size:12px;">${c.notes || '–'}</td>
+        </tr>`).join('');
+        wrap.innerHTML = `<table><thead><tr><th>Thời gian</th><th>Khách hàng</th><th>SĐT</th><th>Xe quan tâm</th><th>Địa chỉ</th><th>Ghi chú</th></tr></thead><tbody>${rows}</tbody></table>`;
+      }
+    }
+
+    function renderDayDetailPagination(total, page) {
+      const totalPages = Math.ceil(total / DETAIL_PAGE_SIZE);
+      const el = document.getElementById('dayDetailPagination');
+      if (totalPages <= 1) { el.innerHTML = ''; return; }
+      el.innerHTML = `<div class="pagination">
+        <button onclick="goDayDetailPage(${page - 1})" ${page <= 1 ? 'disabled' : ''}>← Trước</button>
+        <span>Trang ${page} / ${totalPages} &nbsp;(${total} bản ghi)</span>
+        <button onclick="goDayDetailPage(${page + 1})" ${page >= totalPages ? 'disabled' : ''}>Sau →</button>
+      </div>`;
+    }
+
+    function goDayDetailPage(page) {
+      currentDetailPage = page;
+      loadDayDetail();
+    }
+
+    async function loadStats() {
+      setPeriod(currentPeriod);
+      await loadPeriodStats();
+    }
+
+    // ─── Visits ──────────────────────────────────────────────────────
+
+    function fmtTime(iso) {
+      if (!iso) return '–';
+      try {
+        return new Date(iso).toLocaleString('vi-VN', { timeZone: 'Asia/Ho_Chi_Minh' });
+      } catch { return iso; }
+    }
+
+    async function loadVisitsPage(page) {
+      const { period, value } = getTabPeriodParams('visits');
+      try {
+        const url = `/api/admin/visits?period=${period}&value=${encodeURIComponent(value)}&page=${page}&pageSize=${DETAIL_PAGE_SIZE}`;
+        const res = await fetch(url, { headers: authHeaders() });
+        if (res.status === 401) { logout(); return; }
+        const data = await res.json();
+        const tbody = document.getElementById('visitsBody');
+        if (!data.data.length) {
+          tbody.innerHTML = '<tr><td colspan="5" class="empty-state">Chưa có dữ liệu</td></tr>';
+          document.getElementById('visitsPagination').innerHTML = '';
+          return;
+        }
+        tbody.innerHTML = data.data.map(v => {
+          const refText = v.referrer
+            ? `<a href="${v.referrer}" target="_blank" rel="noopener" style="color:#004a9f;">${v.referrer.length > 40 ? v.referrer.slice(0, 40) + '…' : v.referrer}</a>`
+            : '<span style="color:#aaa;">Direct</span>';
+          return `<tr>
+            <td style="white-space:nowrap;font-size:12px;">${fmtTime(v.timestamp)}</td>
+            <td style="font-size:13px;">${v.page || '/'}</td>
+            <td style="font-size:12px;white-space:nowrap;">${v.ip || '–'}</td>
+            <td style="font-size:12px;">${refText}</td>
+            <td style="font-size:11px;max-width:180px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;" title="${(v.userAgent || '').replace(/"/g, '&quot;')}">${(v.userAgent || '–').slice(0, 70)}</td>
+          </tr>`;
+        }).join('');
+        renderTabPagination('visitsPagination', data.total, page, 'loadVisitsPage');
+      } catch {
+        showToast('Lỗi tải dữ liệu truy cập', true);
+      }
+    }
+
+    // ─── Sessions ────────────────────────────────────────────────────
+
+    async function loadSessionsPage(page) {
+      const { period, value } = getTabPeriodParams('sessions');
+      try {
+        const url = `/api/admin/sessions?period=${period}&value=${encodeURIComponent(value)}&page=${page}&pageSize=${DETAIL_PAGE_SIZE}`;
+        const res = await fetch(url, { headers: authHeaders() });
+        if (res.status === 401) { logout(); return; }
+        const data = await res.json();
+        const tbody = document.getElementById('sessionsBody');
+        if (!data.data.length) {
+          tbody.innerHTML = '<tr><td colspan="6" class="empty-state">Chưa có dữ liệu</td></tr>';
+          document.getElementById('sessionsPagination').innerHTML = '';
+          return;
+        }
+        tbody.innerHTML = data.data.map(s => `<tr>
+          <td style="font-size:11px;font-family:monospace;white-space:nowrap;">${(s.sessionId || '').slice(0, 14)}…</td>
+          <td style="font-size:12px;">${s.pages.join(', ')}</td>
+          <td style="text-align:center;font-weight:700;">${s.pageCount}</td>
+          <td style="white-space:nowrap;font-size:12px;">${fmtTime(s.first)}</td>
+          <td style="white-space:nowrap;font-size:12px;">${fmtTime(s.last)}</td>
+          <td style="font-size:12px;">${s.ips.join(', ') || '–'}</td>
+        </tr>`).join('');
+        renderTabPagination('sessionsPagination', data.total, page, 'loadSessionsPage');
+      } catch {
+        showToast('Lỗi tải dữ liệu phiên', true);
+      }
+    }
+
+    // ─── Consultations ───────────────────────────────────────────────
+
+    async function loadConsultationsPage(page) {
+      const { period, value } = getTabPeriodParams('consultations');
+      try {
+        const url = `/api/admin/consultations?period=${period}&value=${encodeURIComponent(value)}&page=${page}&pageSize=${DETAIL_PAGE_SIZE}`;
+        const res = await fetch(url, { headers: authHeaders() });
+        if (res.status === 401) { logout(); return; }
+        const data = await res.json();
+        const tbody = document.getElementById('consultationsBody');
+        if (!data.data.length) {
+          tbody.innerHTML = '<tr><td colspan="6" class="empty-state">Chưa có đơn tư vấn nào</td></tr>';
+          document.getElementById('consultPagination').innerHTML = '';
+          return;
+        }
+        tbody.innerHTML = data.data.map(c => `<tr>
+          <td style="white-space:nowrap;font-size:12px;">${fmtTime(c.createdAt)}</td>
+          <td><b>${c.name}</b></td>
+          <td><a href="tel:${c.phone}" style="color:#004a9f;font-weight:600;">${c.phone}</a></td>
+          <td>${c.carName || '–'}</td>
+          <td style="font-size:12px;">${c.address || '–'}</td>
+          <td style="font-size:12px;">${c.notes || '–'}</td>
+        </tr>`).join('');
+        renderTabPagination('consultPagination', data.total, page, 'loadConsultationsPage');
+      } catch {
+        showToast('Lỗi tải đơn tư vấn', true);
+      }
     }
 
     // ─── Image Gallery ───────────────────────────────────────────────
